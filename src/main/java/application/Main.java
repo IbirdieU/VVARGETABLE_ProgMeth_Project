@@ -1,15 +1,14 @@
 package application;
 
-import gui.ControlGridPane;
-import gui.ControlPane;
-import gui.MineSweeperPane;
+
+import gui.MainMenu;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -18,15 +17,19 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
-        HBox root = new HBox();
-        root.setPadding(new Insets(10));
-        root.setSpacing(10);
-        root.setPrefHeight(400);
-        root.setPrefWidth(800);
-        Scene scene = new Scene(root);
+
+        StackPane root = new StackPane();
+
+        Canvas gameCanvas = new Canvas(800,600);
+
+        MainMenu menupane = new MainMenu();
+
+        root.getChildren().addAll(gameCanvas,menupane);
+        Scene scene = new Scene(root,800,600);
         primaryStage.setScene(scene);
         primaryStage.setTitle("vvargetable");
         primaryStage.show();
+
 	}
 
 	public static void main(String[] args) {

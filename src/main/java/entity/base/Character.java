@@ -2,10 +2,9 @@ package entity.base;
 
 import javafx.scene.canvas.GraphicsContext;
 
-public abstract class Character extends GameObject implements Damageable{
+public abstract class Character extends GameObject implements Damageable,Collidable{
     protected int hp;
     protected int maxHp;
-
     public Character(double x, double y, int health) {
         super(x, y);
         this.hp = health;
@@ -31,4 +30,5 @@ public abstract class Character extends GameObject implements Damageable{
     public void setMaxHp(int maxHp) {
         this.maxHp = maxHp;
     }
+
 }

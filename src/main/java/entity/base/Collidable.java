@@ -1,5 +1,7 @@
 package entity.base;
 
-public interface Collidable {
+import javafx.geometry.Rectangle2D;
 
+public interface Collidable {
+    void onCollision(GameObject other);
 }

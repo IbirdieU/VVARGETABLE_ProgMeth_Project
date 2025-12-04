@@ -1,5 +1,6 @@
 package entity.base;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 
 public abstract class GameObject {
@@ -13,11 +14,47 @@ public abstract class GameObject {
         this.x = x;
         this.y = y;
     }
+
+    public Rectangle2D getHitBox() {
+        return new Rectangle2D(getX(),getY(),getWidth(),getHeight());
+    }
+    public boolean isIntersects(GameObject other) {
+        return this.getHitBox().intersects(other.getHitBox());
+    }
     public abstract void update();
 
     public abstract void render(GraphicsContext gc);
 
-    public abstract boolean intersects(GameObject other);
 
+    public double getWidth() {
+        return width;
+    }
 
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
 }
