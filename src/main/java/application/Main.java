@@ -1,15 +1,13 @@
 package application;
 
 
-import gui.MainMenu;
+import gui.IntroMenu;
 
+import gui.MainMenu;
 import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
@@ -20,12 +18,18 @@ public class Main extends Application {
 
         StackPane root = new StackPane();
 
-        Canvas gameCanvas = new Canvas(800,600);
 
-        MainMenu menupane = new MainMenu();
 
-        root.getChildren().addAll(gameCanvas,menupane);
-        Scene scene = new Scene(root,800,600);
+        IntroMenu intro = new IntroMenu();
+        MainMenu main = new MainMenu();
+        Canvas gameCanvas = new Canvas(800,600); //the hidden game
+        main.setVisible(false);
+        intro.setOnAction(() -> {
+            intro.setVisible(false);
+            main.setVisible(true);
+        });
+        root.getChildren().addAll(gameCanvas,intro,main);
+        Scene scene = new Scene(root,1280,720);
         primaryStage.setScene(scene);
         primaryStage.setTitle("vvargetable");
         primaryStage.show();
