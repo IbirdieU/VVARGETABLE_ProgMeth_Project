@@ -65,11 +65,16 @@ public class HowToMenu extends VBox {
                 onStartAction.run();
             }
         });
+
         this.setBackground(new Background(backgroundImage));
         this.getChildren().addAll(line1,line2,line3,line4,plyBtn);
     }
 
+
+
     public void setOnStartAction(Runnable onStartAction) {
         this.onStartAction = onStartAction;
     }
+
+
 }
