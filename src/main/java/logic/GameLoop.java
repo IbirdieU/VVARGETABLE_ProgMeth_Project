@@ -29,6 +29,8 @@ public class GameLoop extends AnimationTimer {
             return;
         }
 
+        gameManager.update(); // GameManager now handles updating the power bar
+
         for (GameObject gameObject : allObjects) {
             gameObject.update();
         }

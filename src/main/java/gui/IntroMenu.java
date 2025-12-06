@@ -27,6 +27,9 @@ public class IntroMenu extends VBox {
         BackgroundSize backgroundSize = new BackgroundSize(100,100 , true, true, false, true);
         BackgroundImage backgroundImage = new BackgroundImage(new Image("background/opening.png"),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT,backgroundSize);
 
+        HBox characterRow = new HBox(50);
+        characterRow.setAlignment(Pos.BASELINE_CENTER);
+        characterRow.getChildren().addAll(new ImageView(carrotImg), new ImageView(onionImg));
 
         Font myFont = Font.loadFont(getClass().getResourceAsStream("/font/bringa.ttf"),140);
         Text name = new Text("VVARGETABLE");
@@ -61,7 +64,6 @@ public class IntroMenu extends VBox {
 
         startBtn.setOnMouseEntered(e -> {
             textTitle.setStroke(Color.WHITE);
-            startBtn.setCursor(Cursor.HAND);
         });
 
         startBtn.setOnMouseExited(e -> {

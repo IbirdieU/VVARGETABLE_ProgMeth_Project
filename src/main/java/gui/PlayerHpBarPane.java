@@ -22,28 +22,28 @@ public class PlayerHpBarPane extends Pane {
         this.carrot = carrot;
         this.onion = onion;
 
-        // Onion (Player 1) HP Bar
+        // Onion (Player 2) HP Bar
         onionHpBarBackground = new Rectangle(BAR_WIDTH, BAR_HEIGHT, Color.DARKGRAY);
         onionHpBar = new Rectangle(BAR_WIDTH, BAR_HEIGHT, Color.LIMEGREEN);
         onionHpBarBackground.setArcWidth(BAR_HEIGHT);
         onionHpBarBackground.setArcHeight(BAR_HEIGHT);
         onionHpBar.setArcWidth(BAR_HEIGHT);
         onionHpBar.setArcHeight(BAR_HEIGHT);
-        onionHpBarBackground.setX(60);
+        onionHpBarBackground.setX(740);
         onionHpBarBackground.setY(60);
-        onionHpBar.setX(60);
+        onionHpBar.setX(740);
         onionHpBar.setY(60);
 
-        // Carrot (Player 2) HP Bar
+        // Carrot (Player 1) HP Bar
         carrotHpBarBackground = new Rectangle(BAR_WIDTH, BAR_HEIGHT, Color.DARKGRAY);
         carrotHpBar = new Rectangle(BAR_WIDTH, BAR_HEIGHT, Color.LIMEGREEN);
         carrotHpBarBackground.setArcWidth(BAR_HEIGHT);
         carrotHpBarBackground.setArcHeight(BAR_HEIGHT);
         carrotHpBar.setArcWidth(BAR_HEIGHT);
         carrotHpBar.setArcHeight(BAR_HEIGHT);
-        carrotHpBarBackground.setX(740);
+        carrotHpBarBackground.setX(60);
         carrotHpBarBackground.setY(60);
-        carrotHpBar.setX(740);
+        carrotHpBar.setX(60);
         carrotHpBar.setY(60);
 
         this.getChildren().addAll(onionHpBarBackground, onionHpBar, carrotHpBarBackground, carrotHpBar);

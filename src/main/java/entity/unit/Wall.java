@@ -6,6 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 public class Wall extends GameObject {
     public Wall(double x, double y) {
         super(x, y);
+
     }
 
     @Override
