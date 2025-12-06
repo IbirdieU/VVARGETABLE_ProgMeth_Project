@@ -3,31 +3,38 @@ package logic;
 import entity.base.GameObject;
 import entity.playerunit.Carrot;
 import entity.playerunit.Onion;
-import gui.*;
-import javafx.scene.canvas.Canvas;
+import gui.GamePane;
+import gui.HowToMenu;
+import gui.IntroMenu;
+import gui.MainMenu;
+import gui.PlayerHpBarPane;
+import javafx.animation.AnimationTimer;
 import javafx.scene.layout.StackPane;
 
 import java.util.ArrayList;
 
 public class GameManager {
     public ArrayList<GameObject> allObjects = new ArrayList<>();
-    private Onion onion;
-    private Carrot carrot;
     public boolean isGameOver = false;
-    private final StackPane root;
-    private final IntroMenu introMenu;
-    private final MainMenu mainMenu;
-    private final HowToMenu howToMenu;
-    private final Canvas gameCanvas;
-    public GamePane gamePane;
-    public PlayerHpBarPane  playerHpBarPane;
+
+    private StackPane root;
+    private IntroMenu introMenu;
+    private MainMenu mainMenu;
+    private HowToMenu howToMenu;
+    private GamePane gamePane;
+    private PlayerHpBarPane playerHpBarPane;
+
+    private Carrot carrot;
+    private Onion onion;
+    private AnimationTimer gameLoop;
+
     public GameManager(StackPane root) {
         this.root = root;
         this.introMenu = new IntroMenu();
         this.mainMenu = new MainMenu();
         this.howToMenu = new HowToMenu();
-        this.gameCanvas = new Canvas(800, 600);
 
+        // Setup event handlers
         introMenu.setOnAction(this::showMainMenu);
         mainMenu.setOnHowToAction(this::showHowToMenu);
         mainMenu.setOnStartAction(this::startGame);
@@ -49,30 +56,30 @@ public class GameManager {
     }
 
     private void startGame() {
-        root.getChildren().clear();
-        root.getChildren().add(gameCanvas);
-        carrot = new Carrot(200, 100,100);
-        onion = new Onion(1040,100,100);
+        // Clear any previous game objects
+        allObjects.clear();
+
+        // Instantiate players
+        this.carrot = new Carrot(980, 500, 100);
+        this.onion = new Onion(200, 500, 100);
         allObjects.add(carrot);
         allObjects.add(onion);
-        gamePane = new GamePane(gameCanvas,allObjects);
-        playerHpBarPane = new PlayerHpBarPane(this.carrot,this.onion);
-        gamePane.getChildren().add(playerHpBarPane);
+
+        // Setup Panes
+        this.gamePane = new GamePane(allObjects);
+        this.playerHpBarPane = new PlayerHpBarPane(carrot, onion);
         root.getChildren().clear();
-        root.getChildren().add(gamePane);
-        // Initialize and start the game logic here
+        root.getChildren().addAll(gamePane, playerHpBarPane);
+
+        // Start Game Loop
+        isGameOver = false;
+        gameLoop = new GameLoop(this, gamePane, playerHpBarPane, allObjects);
+        gameLoop.start();
     }
 
-    public Carrot getCarrot() {
-        return carrot;
+    public void checkGameOver() {
+        if (carrot.isDead() || onion.isDead()) {
+            isGameOver = true;
+        }
     }
-
-    public Onion getOnion() {
-        return onion;
-    }
-
-    public boolean isGameOver() {
-        return carrot.isDead() || onion.isDead();
-    }
-
 }

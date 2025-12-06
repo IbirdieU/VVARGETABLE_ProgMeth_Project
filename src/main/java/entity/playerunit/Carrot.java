@@ -12,20 +12,22 @@ public class Carrot extends Character  {
 
     public Carrot(double x, double y, int health) {
         super(x, y, health);
+        this.width = IMG.getWidth();
+        this.height = IMG.getHeight();
     }
 
     @Override
     public void update() {
-
+        // Update logic for the carrot would go here
     }
 
     @Override
     public void render(GraphicsContext gc) {
-
+        gc.drawImage(IMG, getX(), getY(), getWidth(), getHeight());
     }
 
     @Override
     public void onCollision(GameObject other) {
-
+        // Collision logic would go here
     }
 }

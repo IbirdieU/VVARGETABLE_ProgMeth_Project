@@ -9,6 +9,8 @@ public class Onion extends Character {
     private static final Image IMG = new Image("playerImage/onion.png");
     public Onion(double x, double y, int health) {
         super(x, y, health);
+        this.width = IMG.getWidth();
+        this.height = IMG.getHeight();
     }
 
     @Override
