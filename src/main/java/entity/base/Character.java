@@ -5,6 +5,8 @@ import javafx.scene.canvas.GraphicsContext;
 public abstract class Character extends GameObject implements Damageable,Collidable{
     protected int hp;
     protected int maxHp;
+    protected int damageTaken;
+    protected boolean isDead = false;
     public Character(double x, double y, int health) {
         super(x, y);
         this.hp = health;
@@ -13,6 +15,8 @@ public abstract class Character extends GameObject implements Damageable,Collida
     @Override
     public void takeDamage(int amount) {
         setHp(getHp()-amount);
+        setDamageTaken(amount);
+        setDead(getHp());
     }
 
     public int getHp() {
@@ -22,13 +26,33 @@ public abstract class Character extends GameObject implements Damageable,Collida
     public void setHp(int hp) {
         if (hp < 0) {
             this.hp = 0;
+        } else if (hp > this.maxHp) {
+            this.hp = this.maxHp;
         } else {
             this.hp = hp;
         }
     }
 
-    public void setMaxHp(int maxHp) {
-        this.maxHp = maxHp;
+    public int getMaxHp() {
+        return maxHp;
     }
 
+    public int getDamageTaken() {
+        return damageTaken;
+    }
+
+    public void setDamageTaken(int damageTaken) {
+        this.damageTaken = damageTaken;
+    }
+    public void setDead(int hp) {
+        if (hp <= 0) {
+            isDead = true;
+        }
+        else {
+            isDead = false;
+        }
+    }
+    public boolean isDead() {
+       return this.isDead;
+    }
 }
