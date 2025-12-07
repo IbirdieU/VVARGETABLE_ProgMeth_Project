@@ -29,11 +29,12 @@ public class GameLoop extends AnimationTimer {
             return;
         }
 
-        gameManager.update(); // GameManager now handles updating the power bar
-
         for (GameObject gameObject : allObjects) {
             gameObject.update();
         }
+
+        gameManager.update(); // GameManager now handles updating the power bar
+
         playerHpBarPane.update();
         gamePane.drawObjects();
         gameManager.checkGameOver();

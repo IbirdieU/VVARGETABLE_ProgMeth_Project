@@ -1,5 +1,7 @@
 package entity.base;
 
+import javafx.geometry.Rectangle2D;
+
 public abstract class Character extends GameObject implements Damagedable{
     protected int hp;
     protected int maxHp;
@@ -55,5 +57,12 @@ public abstract class Character extends GameObject implements Damagedable{
        return this.isDead;
     }
 
+    @Override
+    public Rectangle2D getHitBox() {
+        return new Rectangle2D(getX()+75,getY()+9,65,100);
+    }
+
     public abstract void setAttacking(boolean isAttacking);
+
+
 }

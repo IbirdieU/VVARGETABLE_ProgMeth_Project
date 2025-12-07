@@ -1,6 +1,7 @@
 package entity.unit;
 
 import entity.base.GameObject;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -32,6 +33,11 @@ public class Projectile extends GameObject {
     }
 
     @Override
+    public Rectangle2D getHitBox() {
+        return new Rectangle2D(getX(),getY(),50,50);
+    }
+
+    @Override
     public void update() {
         // Apply gravity
         vy += GRAVITY;
@@ -49,7 +55,7 @@ public class Projectile extends GameObject {
     @Override
     public void render(GraphicsContext gc) {
         if (image != null) {
-            gc.drawImage(image, x, y, width, height);
+            gc.drawImage(image, getX(), getY(), getWidth(), getHeight());
         }
     }
 
