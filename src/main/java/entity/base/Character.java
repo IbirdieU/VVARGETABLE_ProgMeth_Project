@@ -7,6 +7,10 @@ public abstract class Character extends GameObject implements Damagedable{
     protected int maxHp;
     protected int damageTaken;
     protected boolean isDead = false;
+    protected boolean isAttacking = false;
+    protected boolean isDamaged = false;
+    protected long damagedStartTime;
+    protected static final long DAMAGED_DURATION = 800; // 0.5 seconds
 
     public Character(double x, double y, int health) {
         super(x, y);
@@ -18,6 +22,15 @@ public abstract class Character extends GameObject implements Damagedable{
         setHp(getHp()-amount);
         setDamageTaken(amount);
         setDead(getHp());
+        isDamaged = true;
+        damagedStartTime = System.currentTimeMillis();
+    }
+
+    @Override
+    public void update() {
+        if (isDamaged && System.currentTimeMillis() - damagedStartTime > DAMAGED_DURATION) {
+            isDamaged = false;
+        }
     }
 
     public int getHp() {
@@ -62,7 +75,7 @@ public abstract class Character extends GameObject implements Damagedable{
         return new Rectangle2D(getX()+75,getY()+9,65,100);
     }
 
-    public abstract void setAttacking(boolean isAttacking);
-
-
+    public void setAttacking(boolean isAttacking) {
+        this.isAttacking = isAttacking;
+    }
 }

@@ -195,7 +195,7 @@ public class GameManager {
         }
     }
     private void handleCollision(Character opponent) {
-        opponent.takeDamage(20); // Example damage value
+        opponent.takeDamage(10); // Example damage value
         // TODO: Trigger opponent's damaged animation/image
         currentProjectile.setDestroyed(true);
         currentTurnState = TurnState.HIT;

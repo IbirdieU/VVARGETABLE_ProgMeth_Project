@@ -1,7 +1,6 @@
 package entity.playerunit;
 
 import entity.base.Character;
-import entity.base.GameObject;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -11,8 +10,6 @@ public class Onion extends Character {
     private static final Image DAMAGED_IMG = new Image("playerImage/damagedOnion.png");
     private static final Image PROJECTILE_IMG = new Image("projectileImage/throwingOnion.png");
 
-    private boolean isAttacking = false;
-
     public Onion(double x, double y, int health) {
         super(x, y, health);
         setWidth(NORMAL_IMG.getWidth()/5);
@@ -20,20 +17,16 @@ public class Onion extends Character {
     }
 
     @Override
-    public void update() {
-        // No update logic needed for this character
-    }
-
-    @Override
     public void render(GraphicsContext gc) {
-        Image imageToRender = isAttacking ? ATTACK_IMG : NORMAL_IMG;
+        Image imageToRender;
+        if (isDamaged) {
+            imageToRender = DAMAGED_IMG;
+        } else if (isAttacking) {
+            imageToRender = ATTACK_IMG;
+        } else {
+            imageToRender = NORMAL_IMG;
+        }
         gc.drawImage(imageToRender, getX(), getY(), getWidth(), getHeight());
-    }
-
-
-    @Override
-    public void setAttacking(boolean isAttacking) {
-        this.isAttacking = isAttacking;
     }
 
     public Image getProjectileImage() {
