@@ -2,6 +2,10 @@ package logic;
 
 import entity.base.Character;
 import entity.base.GameObject;
+import entity.playerSkill.Double;
+import entity.playerSkill.Growth;
+import entity.playerSkill.Heal;
+import entity.playerSkill.Toxic;
 import entity.playerunit.Carrot;
 import entity.playerunit.Onion;
 import entity.unit.Projectile;
@@ -51,6 +55,9 @@ public class GameManager {
 
     private ImageCursor carrotCursor;
     private ImageCursor onionCursor;
+
+    private SkillButton p1Skill1, p1Skill2;
+    private SkillButton p2Skill1, p2Skill2;
 
 
     public GameManager(StackPane root) {
@@ -128,6 +135,27 @@ public class GameManager {
 
         updateCursor();
 
+        /// Skills
+        Skill skillC1 = new Double();
+        Skill skillC2 = new Heal();
+        Skill skillO1 = new Toxic();
+        Skill skillO2 = new Growth();
+
+        p1Skill1 = new SkillButton(skillC1, this);
+        p1Skill2 = new SkillButton(skillC2, this);
+
+        p2Skill1 = new SkillButton(skillO1, this);
+        p2Skill2 = new SkillButton(skillO2, this);
+
+        p1Skill1.setTurnActive(true);
+        p1Skill2.setTurnActive(true);
+
+        p2Skill1.setTurnActive(false);
+        p2Skill2.setTurnActive(false);
+
+        //this.playerHpBarPane = new PlayerHpBarPane(carrot, onion);
+        this.playerHpBarPane.setSkills(p1Skill1, p1Skill2, p2Skill1, p2Skill2);
+
         isGameOver = false;
         gameLoop = new GameLoop(this, gamePane, playerHpBarPane, allObjects);
         gameLoop.start();
@@ -159,12 +187,30 @@ public class GameManager {
     private void launchProjectile() {
         Character activePlayer = getActivePlayer();
         double startX;
-        double startY = activePlayer.getY();
+        double startY ;
         double angle;
+        double scale = activePlayer.getProjectileScale();
 
         javafx.scene.image.Image projectileImage = (activePlayer instanceof Onion) ?
                 ((Onion) activePlayer).getProjectileImage() :
                 ((Carrot) activePlayer).getProjectileImage();
+
+        //Start Position
+        double realWidth = projectileImage.getWidth() * 0.2 * scale;
+        double realHeight = projectileImage.getHeight() * 0.2 * scale;
+
+        double spawnCenterX = activePlayer.getX() + (activePlayer.getWidth() / 2);
+        double spawnCenterY = activePlayer.getY() + (activePlayer.getHeight() / 2);
+
+
+        startX = spawnCenterX - (realWidth / 2);
+        startY = spawnCenterY - (realHeight / 2);
+
+        if (currentPlayerTurn == PlayerTurn.PLAYER_ONE) {
+            startX += 20;
+        } else {
+            startX -= 20;
+        }
 
         // Firing position logic is now swapped
         if (currentPlayerTurn == PlayerTurn.PLAYER_ONE) {
@@ -177,9 +223,26 @@ public class GameManager {
 
         // Adjust startX to account for the projectile's own width
 
+        /// Skill
+        double dmgMult = activePlayer.getDamageMultiplier();
+        boolean isPoison = activePlayer.isPoisonShot();
 
-        currentProjectile = new Projectile(startX, startY, projectileImage, angle, currentPower / 5.0);
+        //set starter damage * dmgMult
+        double totalDamage = currentPower * 0.3 * dmgMult;
+
+        currentProjectile = new Projectile(startX, startY, projectileImage, angle, currentPower / 5.0,totalDamage,scale,isPoison);
         allObjects.add(currentProjectile);
+
+        activePlayer.resetBuffs();
+
+        /// ฺSkill-used-after-launched Blocking
+        if (currentPlayerTurn == PlayerTurn.PLAYER_ONE) {
+            p1Skill1.setTurnActive(false);
+            p1Skill2.setTurnActive(false);
+        } else {
+            p2Skill1.setTurnActive(false);
+            p2Skill2.setTurnActive(false);
+        }
     }
 
     public void update() {
@@ -210,11 +273,23 @@ public class GameManager {
 
         powerBarPane.update(getActivePlayer());
 
+        playerHpBarPane.update();
+
         if (currentTurnState == TurnState.PROJECTILE_IN_AIR && currentProjectile != null) {
             // Collision detection
             Character opponent = (currentPlayerTurn == PlayerTurn.PLAYER_ONE) ? onion : carrot;
             if (currentProjectile.getHitBox().intersects(opponent.getHitBox())) {
-                opponent.takeDamage(20); // Example damage
+                opponent.takeDamage(currentProjectile.getDamage()); // Example damage
+                //opponent.takeDamage(20);
+
+
+                if (currentProjectile.isPoisonous()) {
+                    opponent.applyPoison(
+                            currentProjectile.getPoisonDuration(),
+                            currentProjectile.getPoisonDamage()
+                    );
+                }
+
                 // TODO: Change opponent's image to a damaged one
                 currentProjectile.setDestroyed(true);
                 currentTurnState = TurnState.HIT;
@@ -242,6 +317,8 @@ public class GameManager {
             currentTurnState = TurnState.READY;
             currentPower = MIN_POWER;
         }
+
+
     }
     private void handleCollision(Character opponent) {
         opponent.takeDamage(20); // Example damage value
@@ -253,8 +330,26 @@ public class GameManager {
 
     private void switchTurn() {
         currentPlayerTurn = (currentPlayerTurn == PlayerTurn.PLAYER_ONE) ? PlayerTurn.PLAYER_TWO : PlayerTurn.PLAYER_ONE;
+        getActivePlayer().checkTurnStatus();
         updateCursor();
         turnTimer.reset();
+
+
+        /// Skill cooldown
+        if (currentPlayerTurn == PlayerTurn.PLAYER_ONE) {
+            p1Skill1.onTurnStart();
+            p1Skill2.onTurnStart();
+
+            p2Skill1.setTurnActive(false);
+            p2Skill2.setTurnActive(false);
+
+        } else {
+            p2Skill1.onTurnStart();
+            p2Skill2.onTurnStart();
+
+            p1Skill1.setTurnActive(false);
+            p1Skill2.setTurnActive(false);
+        }
     }
 
     public void checkGameOver() {
