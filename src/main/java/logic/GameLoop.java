@@ -26,8 +26,11 @@ public class GameLoop extends AnimationTimer {
         if (gameManager.isGameOver) {
             this.stop();
             System.out.println("Game Over!");
+            gameManager.showGameOverWindow();
             return;
         }
+
+        gameManager.update(); // GameManager now handles updating the power bar
 
         for (GameObject gameObject : allObjects) {
             gameObject.update();

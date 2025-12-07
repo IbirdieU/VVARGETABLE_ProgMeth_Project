@@ -16,8 +16,6 @@ import logic.GameManager;
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		// TODO Auto-generated method stub
-
         StackPane root = new StackPane();
         Scene scene = new Scene(root,1280,720);
 
@@ -25,7 +23,7 @@ public class Main extends Application {
         gameManager.start();
 
         primaryStage.setScene(scene);
-        primaryStage.setTitle("vvargetable");
+        primaryStage.setTitle("VVARGETABLE");
         primaryStage.show();
 
 	}

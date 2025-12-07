@@ -1,12 +1,11 @@
 package entity.base;
 
-import javafx.scene.canvas.GraphicsContext;
-
-public abstract class Character extends GameObject implements Damageable,Collidable{
+public abstract class Character extends GameObject implements Damagedable{
     protected int hp;
     protected int maxHp;
     protected int damageTaken;
     protected boolean isDead = false;
+
     public Character(double x, double y, int health) {
         super(x, y);
         this.hp = health;
@@ -55,4 +54,6 @@ public abstract class Character extends GameObject implements Damageable,Collida
     public boolean isDead() {
        return this.isDead;
     }
+
+    public abstract void setAttacking(boolean isAttacking);
 }
