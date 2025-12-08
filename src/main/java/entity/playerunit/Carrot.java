@@ -10,7 +10,6 @@ public class Carrot extends Character {
     private static final Image ATTACK_IMG = new Image("playerImage/attackCarrot.png");
     private static final Image DAMAGED_IMG = new Image("playerImage/damagedCarrot.png");
     private static final Image PROJECTILE_IMG = new Image("projectileImage/throwingCarrot.png");
-
     public Carrot(double x, double y, int health) {
         super(x, y, health);
         setWidth(NORMAL_IMG.getWidth()/5);

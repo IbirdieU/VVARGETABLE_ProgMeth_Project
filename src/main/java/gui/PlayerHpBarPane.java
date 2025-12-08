@@ -2,6 +2,7 @@ package gui;
 
 import entity.playerunit.Carrot;
 import entity.playerunit.Onion;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -13,6 +14,8 @@ public class PlayerHpBarPane extends Pane {
     private Rectangle carrotHpBar;
     private Carrot carrot;
     private Onion onion;
+    private HBox p1SkillBox;
+    private HBox p2SkillBox;
 
     private final double BAR_WIDTH = 480;
     private final double BAR_HEIGHT = 20;
@@ -21,6 +24,15 @@ public class PlayerHpBarPane extends Pane {
         super();
         this.carrot = carrot;
         this.onion = onion;
+        p1SkillBox = new HBox(10);
+        p2SkillBox = new HBox(10);
+
+        /// Skills
+        p1SkillBox.setLayoutX(60);
+        p1SkillBox.setLayoutY(90);
+
+        p2SkillBox.setLayoutX(740);
+        p2SkillBox.setLayoutY(90);
 
         // Onion (Player 2) HP Bar
         onionHpBarBackground = new Rectangle(BAR_WIDTH, BAR_HEIGHT, Color.DARKGRAY);
@@ -30,6 +42,7 @@ public class PlayerHpBarPane extends Pane {
         onionHpBar.setArcWidth(BAR_HEIGHT);
         onionHpBar.setArcHeight(BAR_HEIGHT);
         onionHpBarBackground.setX(740);
+
         onionHpBarBackground.setY(60);
         onionHpBar.setX(740);
         onionHpBar.setY(60);
@@ -46,7 +59,7 @@ public class PlayerHpBarPane extends Pane {
         carrotHpBar.setX(60);
         carrotHpBar.setY(60);
 
-        this.getChildren().addAll(onionHpBarBackground, onionHpBar, carrotHpBarBackground, carrotHpBar);
+        this.getChildren().addAll(onionHpBarBackground, onionHpBar, carrotHpBarBackground, carrotHpBar,p1SkillBox, p2SkillBox);
         this.setStyle("-fx-background-color: transparent;");
 
         update();
@@ -58,5 +71,13 @@ public class PlayerHpBarPane extends Pane {
 
         double carrotHpPercentage = (double) carrot.getHp() / carrot.getMaxHp();
         carrotHpBar.setWidth(BAR_WIDTH * carrotHpPercentage);
+    }
+
+    public void setSkills(SkillButton s1, SkillButton s2, SkillButton s3, SkillButton s4) {
+        p1SkillBox.getChildren().clear();
+        p2SkillBox.getChildren().clear();
+
+        p1SkillBox.getChildren().addAll(s1, s2);
+        p2SkillBox.getChildren().addAll(s3, s4);
     }
 }

@@ -14,14 +14,20 @@ public class Projectile extends GameObject {
     private double vy;
     private boolean isDestroyed = false;
 
-    public Projectile(double startX, double startY, Image image, double angle, double power) {
+    private double damage;
+    private boolean isPoisonous;
+    private int poisonDuration;
+    private int poisonDamage;
+
+    public Projectile(double startX, double startY, Image image, double angle, double power, double damage,
+                       double scale, boolean isPoison) {
 
         super(startX, startY);
 
 
         this.image = image;
-        setWidth(image.getWidth()/5);
-        setHeight(image.getHeight()/5);
+        setWidth(image.getWidth()*0.2*scale);
+        setHeight(image.getHeight()*0.2*scale);
 
 
         setX(startX);
@@ -30,11 +36,28 @@ public class Projectile extends GameObject {
 
         this.vx = power * Math.cos(Math.toRadians(angle));
         this.vy = power * Math.sin(Math.toRadians(angle));
+
+
+        this.damage = damage;
+        this.isPoisonous = isPoison;
+
+        if (isPoison) {
+            this.poisonDuration = 2;
+            this.poisonDamage = 10;
+        } else {
+            this.poisonDuration = 0;
+            this.poisonDamage = 0;
+        }
     }
 
     @Override
     public Rectangle2D getHitBox() {
         return new Rectangle2D(getX(),getY(),50,50);
+    }
+
+    @Override
+    public boolean isIntersects(GameObject other) {
+        return false;
     }
 
     @Override
@@ -57,6 +80,22 @@ public class Projectile extends GameObject {
         if (image != null) {
             gc.drawImage(image, getX(), getY(), getWidth(), getHeight());
         }
+    }
+
+    public double getDamage() {
+        return damage;
+    }
+
+    public int getPoisonDuration() {
+        return poisonDuration;
+    }
+
+    public boolean isPoisonous() {
+        return isPoisonous;
+    }
+
+    public int getPoisonDamage() {
+        return poisonDamage;
     }
 
     public boolean isDestroyed() {
