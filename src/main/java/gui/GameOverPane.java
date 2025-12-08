@@ -5,57 +5,69 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+public class GameOverPane extends StackPane {
+    private Runnable onRestart;
+    private Runnable onExit;
 
-
-public class MainMenu extends VBox {
-    private Runnable onHowToAction;
-    private Runnable onStartAction;
-    public MainMenu() {
+    public GameOverPane(String winnerName) {
         this.setAlignment(Pos.CENTER);
-        this.setSpacing(30);
 
-        BackgroundSize backgroundSize = new BackgroundSize(100,100 , true, true, false, true);
-        BackgroundImage backgroundImage = new BackgroundImage(new Image("background/howTo.png"),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT,backgroundSize);
 
-        Font myFont = Font.loadFont(getClass().getResourceAsStream("/font/comicy.ttf"),50);
+        this.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
 
-        Text welcomeText = new Text("Welcome to VVGETABLE game");
-        welcomeText.setFont(myFont);
 
-        /// How to button
-        StackPane helpBtn = SignButton("HOW TO PLAY","/background/woodSign.png",() -> {
-            if (onHowToAction != null) {
-                onHowToAction.run();
+        StackPane window = new StackPane();
+        window.setMaxSize(400, 300);
+
+
+        Image bgImg = new Image(ClassLoader.getSystemResourceAsStream("background/howTo.png"));
+        ImageView bgView = new ImageView(bgImg);
+        bgView.setFitWidth(860);
+        bgView.setFitHeight(480);
+
+
+        VBox content = new VBox(20);
+        content.setAlignment(Pos.CENTER);
+        Text title = new Text(winnerName + " WINS!");
+        title.setFont(Font.font("Verdana", FontWeight.BOLD, 60));
+        title.setFill(Color.BLACK);
+
+        StackPane replyBtn = SignButton("RETRY","/background/woodSign.png",() -> {
+            if (onRestart != null) {
+                onRestart.run();
             }
         });
 
-        /// Play button
-        StackPane plyBtn = SignButton("PLAY","/background/woodSign.png",() -> {
-            if (onStartAction != null) {
-                onStartAction.run();
+        StackPane exitBtn = SignButton("QUIT","/background/woodSign.png",() -> {
+            if (onExit != null) {
+                onExit.run();
             }
         });
 
-        this.setBackground(new Background(backgroundImage));
-        this.getChildren().addAll(welcomeText,helpBtn,plyBtn);
+        HBox btnRow = new HBox(30);
+        btnRow.setAlignment(Pos.CENTER);
+        btnRow.getChildren().addAll(replyBtn,exitBtn);
+
+        content.getChildren().addAll(title,btnRow);
+
+        window.getChildren().addAll(bgView, content);
+
+        this.getChildren().add(window);
     }
 
-    public void setOnHowToAction(Runnable onHowToAction) {
-        this.onHowToAction = onHowToAction;
-    }
+    public void setOnRestart(Runnable onRestart) {this.onRestart = onRestart;}
 
-    public void setOnStartAction(Runnable onStartAction) {
-        this.onStartAction = onStartAction;
-    }
+    public void setOnExit(Runnable onExit) {this.onExit = onExit;}
 
-
-
+    //Button
     private StackPane SignButton(String content,String imagePath,Runnable action){
         Image img = null;
         try {

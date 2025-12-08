@@ -21,28 +21,32 @@ public class HowToMenu extends VBox {
         BackgroundSize backgroundSize = new BackgroundSize(100,100 , true, true, false, true);
         BackgroundImage backgroundImage = new BackgroundImage(new Image("background/howTo.png"), BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,backgroundSize);
 
-        Text head = new Text("HOW TO PLAY");
+        Text header = new Text("HOW TO PLAY");
         Font myFont = Font.loadFont(getClass().getResourceAsStream("/font/comicy.ttf"),50);
-        head.setFont(myFont);
+        header.setFont(myFont);
 
         Text line1 = new Text("Players can click and hold mouse button over their turn");
         line1.setFont(Font.font("Tahoma", FontWeight.NORMAL,24));
 
-        Text line2 = new Text("power gauge increases until released");
+        Text line2 = new Text("Power gauge increases until released");
         line2.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
-        line2.setFill(Color.DARKGRAY);
+        line2.setFill(Color.DARKCYAN);
 
-        Text line3 = new Text("Release mouse button to throw items");
+        Text line3 = new Text("Watch wind meter to measure throw");
         line3.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
-        line3.setFill(Color.DARKGRAY);
+        line3.setFill(Color.DARKCYAN);
 
-        Text line4 = new Text("When time ran out, the turn will be skipped");
+        Text line4 = new Text("Release mouse button to throw items");
         line4.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
-        line4.setFill(Color.RED);
+        line4.setFill(Color.DARKCYAN);
 
-        Text line5 = new Text("Click to select the special skills before you throw. Each cooldown is 4 turn");
+        Text line5 = new Text("When time ran out, the turn will be skipped");
         line5.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
-        line5.setFill(Color.BLACK);
+        line5.setFill(Color.RED);
+
+        Text line6 = new Text("Click to select the special skills before you throw. Each cooldown is 4 turn");
+        line6.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
+        line6.setFill(Color.BLACK);
 
         /// Skill Descriptions
         HBox skillRow = new HBox(30);
@@ -64,7 +68,7 @@ public class HowToMenu extends VBox {
         });
 
         this.setBackground(new Background(backgroundImage));
-        this.getChildren().addAll(head,line1,line2,line3,line4,line5,skillRow,plyBtn);
+        this.getChildren().addAll(header,line1,line2,line3,line4,line5,skillRow,plyBtn);
     }
 
     public void setOnStartAction(Runnable onStartAction) {

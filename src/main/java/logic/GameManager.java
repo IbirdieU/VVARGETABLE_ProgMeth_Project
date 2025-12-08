@@ -7,7 +7,10 @@ import entity.playerunit.Onion;
 import entity.unit.Projectile;
 import gui.*;
 import javafx.animation.AnimationTimer;
+import javafx.geometry.Dimension2D;
+import javafx.scene.ImageCursor;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 
@@ -42,6 +45,14 @@ public class GameManager {
     private long hitTimestamp;
     private final long HIT_STATE_DURATION_MS = 1000; // 1 second
 
+    private TurnTimer turnTimer;
+    private TurnTimerPane turnTimerPane;
+    private long lastFrameTime;
+
+    private ImageCursor carrotCursor;
+    private ImageCursor onionCursor;
+
+
     public GameManager(StackPane root) {
         this.root = root;
         this.introMenu = new IntroMenu();
@@ -53,6 +64,18 @@ public class GameManager {
         mainMenu.setOnHowToAction(this::showHowToMenu);
         mainMenu.setOnStartAction(this::startGame);
         howToMenu.setOnStartAction(this::startGame);
+
+        double cursorSize = 64;
+
+        Image carrotImg = new Image(getClass().getResourceAsStream("/projectileImage/throwingCarrot.png"));
+        Image onionImg = new Image(getClass().getResourceAsStream("/projectileImage/throwingOnion.png"));
+
+        double hotSpotX = cursorSize / 2;
+        double hotSpotY = cursorSize / 2;
+
+        this.carrotCursor = new ImageCursor(carrotImg, hotSpotX, hotSpotY);
+        this.onionCursor = new ImageCursor(onionImg, hotSpotX, hotSpotY);
+
     }
 
     public void start() {
@@ -86,14 +109,24 @@ public class GameManager {
         this.playerHpBarPane = new PlayerHpBarPane(carrot, onion);
         this.powerBarPane = new PowerBarPane(this);
 
+        /// TurnTimer
+        this.turnTimer = new TurnTimer(10.0);
+
+        this.turnTimerPane = new TurnTimerPane();
+
         root.getChildren().clear();
-        root.getChildren().addAll(gamePane, playerHpBarPane, powerBarPane);
+        root.getChildren().addAll(gamePane, playerHpBarPane, powerBarPane,turnTimerPane);
+
+        ///  Start counting
+        lastFrameTime = System.nanoTime();
 
         setupInputHandlers();
 
         currentPlayerTurn = PlayerTurn.PLAYER_ONE;
         currentTurnState = TurnState.READY;
         currentPower = MIN_POWER;
+
+        updateCursor();
 
         isGameOver = false;
         gameLoop = new GameLoop(this, gamePane, playerHpBarPane, allObjects);
@@ -129,16 +162,16 @@ public class GameManager {
         double startY = activePlayer.getY();
         double angle;
 
-        javafx.scene.image.Image projectileImage = (activePlayer instanceof Onion) ?
+        Image projectileImage = (activePlayer instanceof Onion) ?
                 ((Onion) activePlayer).getProjectileImage() :
                 ((Carrot) activePlayer).getProjectileImage();
 
         // Firing position logic is now swapped
         if (currentPlayerTurn == PlayerTurn.PLAYER_ONE) {
-            startX = activePlayer.getX() - activePlayer.getWidth()/4;
+            startX = activePlayer.getX() + activePlayer.getWidth()/2;
             angle = -45;
         } else {
-            startX = activePlayer.getX() + activePlayer.getWidth()/4;
+            startX = activePlayer.getX() + activePlayer.getWidth()/2;
             angle = -135;
         }
 
@@ -151,6 +184,22 @@ public class GameManager {
 
     public void update() {
         if (isGameOver) return;
+
+        /// Timer
+        long now = System.nanoTime();
+        double deltaTime = (now - lastFrameTime) / 1_000_000_000.0;
+        lastFrameTime = now;
+
+        if (currentTurnState == TurnState.READY || currentTurnState == TurnState.CHARGING) {
+            turnTimer.tick(deltaTime);
+
+            if (turnTimer.isTimeOut()) {
+                currentTurnState = TurnState.CHANGING_TURN;
+                getActivePlayer().setAttacking(false);
+            }
+        }
+        turnTimerPane.updateUI(turnTimer.getCurrentTimeInt(), currentPlayerTurn);
+
 
         if (currentTurnState == TurnState.CHARGING) {
             currentPower += POWER_CHARGE_RATE;
@@ -165,7 +214,7 @@ public class GameManager {
             // Collision detection
             Character opponent = (currentPlayerTurn == PlayerTurn.PLAYER_ONE) ? onion : carrot;
             if (currentProjectile.getHitBox().intersects(opponent.getHitBox())) {
-                opponent.takeDamage(20); // Example damage
+                opponent.takeDamage(10); // Example damage
                 // TODO: Change opponent's image to a damaged one
                 currentProjectile.setDestroyed(true);
                 currentTurnState = TurnState.HIT;
@@ -204,11 +253,41 @@ public class GameManager {
 
     private void switchTurn() {
         currentPlayerTurn = (currentPlayerTurn == PlayerTurn.PLAYER_ONE) ? PlayerTurn.PLAYER_TWO : PlayerTurn.PLAYER_ONE;
+        updateCursor();
+        turnTimer.reset();
     }
 
     public void checkGameOver() {
         if (carrot.isDead() || onion.isDead()) {
             isGameOver = true;
+        }
+    }
+
+    public void showGameOverWindow() {
+        String winner = "";
+        if (carrot.isDead()) winner = "ONION";
+        else if (onion.isDead()) winner = "CARROT";
+
+        GameOverPane gameOverPane = new GameOverPane(winner);
+
+        gameOverPane.setOnRestart(() -> {
+            startGame();
+        });
+
+        gameOverPane.setOnExit(() -> {
+            showMainMenu();
+        });
+
+        root.getChildren().add(gameOverPane);
+    }
+
+    private void updateCursor() {
+        if (root.getScene() == null) return;
+
+        if (currentPlayerTurn == PlayerTurn.PLAYER_ONE) {
+            root.getScene().setCursor(carrotCursor);
+        } else {
+            root.getScene().setCursor(onionCursor);
         }
     }
 

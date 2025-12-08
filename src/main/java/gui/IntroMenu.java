@@ -32,18 +32,18 @@ public class IntroMenu extends VBox {
         characterRow.getChildren().addAll(new ImageView(carrotImg), new ImageView(onionImg));
 
         Font myFont = Font.loadFont(getClass().getResourceAsStream("/font/bringa.ttf"),140);
-        Text name = new Text("VVARGETABLE");
-        name.setFont(myFont);
-        name.setFill(Color.WHITE);
-        name.setStroke(Color.BLACK);
-        name.setStrokeWidth(5);
+        Text header = new Text("VVARGETABLE");
+        header.setFont(myFont);
+        header.setFill(Color.WHITE);
+        header.setStroke(Color.BLACK);
+        header.setStrokeWidth(5);
 
         //Add shadow
         DropShadow dropShadow = new DropShadow();
         dropShadow.setColor(Color.color(0, 0, 0, 0.5));
         dropShadow.setOffsetX(5);
         dropShadow.setOffsetY(5);
-        name.setEffect(dropShadow);
+        header.setEffect(dropShadow);
 
 
         Button startBtn = new Button("");
@@ -71,16 +71,6 @@ public class IntroMenu extends VBox {
             textTitle.setStrokeWidth(1);
         });
 
-        /// Old version
-
-        //Button startBtn = new Button("START");
-        //startBtn.setFont(Font.font("comicy", FontWeight.BOLD,24));
-        //startBtn.setStyle("-fx-background-radius: 20;");
-        //startBtn.setPrefWidth(160);
-        //startBtn.setBackground(new Background(new BackgroundFill(Color.web("#4D869C"), new CornerRadii(20), null)));
-        //startBtn.setOnMouseEntered(e -> startBtn.setBackground(new Background(new BackgroundFill(Color.web("#7AB2B2"), new CornerRadii(20), null))));
-        //startBtn.setOnMouseExited(e -> startBtn.setBackground(new Background(new BackgroundFill(Color.web("#4D869C"), new CornerRadii(20), null))));
-
         startBtn.setOnAction(actionEvent -> {
             if (onAction != null) {
                 onAction.run();
@@ -88,7 +78,7 @@ public class IntroMenu extends VBox {
         });
 
         this.setBackground(new Background(backgroundImage));
-        this.getChildren().addAll(name,startBtn);
+        this.getChildren().addAll(header,startBtn);
 
     }
 
