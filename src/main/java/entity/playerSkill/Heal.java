@@ -1,11 +1,11 @@
 package entity.playerSkill;
 
 import logic.GameManager;
-import logic.Skill;
+import entity.base.Skill;
 
 public class Heal extends Skill {
     public Heal() {
-        super("HEAL", "icon/healCarrot.png", 5);
+        super("HEAL", "icon/skillIcon/healCarrot.png", 5);
     }
 
     @Override

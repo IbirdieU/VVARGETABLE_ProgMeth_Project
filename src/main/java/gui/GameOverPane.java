@@ -9,9 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
+import javafx.scene.text.*;
 
 public class GameOverPane extends StackPane {
     private Runnable onRestart;
@@ -36,9 +34,21 @@ public class GameOverPane extends StackPane {
 
         VBox content = new VBox(20);
         content.setAlignment(Pos.CENTER);
-        Text title = new Text(winnerName + " WINS!");
-        title.setFont(Font.font("Verdana", FontWeight.BOLD, 60));
-        title.setFill(Color.BLACK);
+        Text nameText = new Text(winnerName);
+        nameText.setFont(Font.font("Verdana", FontWeight.BOLD, 60));
+        if("CARROT".equals(winnerName)){
+            nameText.setFill(Color.ORANGE);
+        }
+        else if("ONION".equals(winnerName)){
+            nameText.setFill(Color.PURPLE);
+        }
+
+        Text winText = new Text(" WINS!");
+        winText.setFont(Font.font("Verdana", FontWeight.BOLD, 60));
+        winText.setFill(Color.BLACK);
+
+        TextFlow titleFlow = new TextFlow(nameText, winText);
+        titleFlow.setTextAlignment(TextAlignment.CENTER);
 
         StackPane replyBtn = SignButton("RETRY","/background/woodSign.png",() -> {
             if (onRestart != null) {
@@ -46,7 +56,7 @@ public class GameOverPane extends StackPane {
             }
         });
 
-        StackPane exitBtn = SignButton("QUIT","/background/woodSign.png",() -> {
+        StackPane exitBtn = SignButton("MENU","/background/woodSign.png",() -> {
             if (onExit != null) {
                 onExit.run();
             }
@@ -56,16 +66,12 @@ public class GameOverPane extends StackPane {
         btnRow.setAlignment(Pos.CENTER);
         btnRow.getChildren().addAll(replyBtn,exitBtn);
 
-        content.getChildren().addAll(title,btnRow);
+        content.getChildren().addAll(titleFlow,btnRow);
 
         window.getChildren().addAll(bgView, content);
 
         this.getChildren().add(window);
     }
-
-    public void setOnRestart(Runnable onRestart) {this.onRestart = onRestart;}
-
-    public void setOnExit(Runnable onExit) {this.onExit = onExit;}
 
     //Button
     private StackPane SignButton(String content,String imagePath,Runnable action){
@@ -111,4 +117,9 @@ public class GameOverPane extends StackPane {
 
         return pane;
     }
+
+    public void setOnRestart(Runnable onRestart) {this.onRestart = onRestart;}
+
+    public void setOnExit(Runnable onExit) {this.onExit = onExit;}
+
 }

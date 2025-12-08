@@ -1,17 +1,23 @@
 package entity.base;
 
+import javafx.geometry.Rectangle2D;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public abstract class Character extends GameObject implements Damagedable{
     protected double hp;
     protected double maxHp;
     protected double damageTaken;
     protected boolean isDead = false;
+    protected boolean isDamaged = false;
+    protected boolean isAttacking = false;
 
     protected double damageMultiplier = 1.0;
     protected double projectileScale = 1.0;
     protected boolean isPoisonShot = false;
 
-    protected int poisonDuration = 0;
-    protected int poisonDamage = 0;
+    private ArrayList<StatusEffect> activeStatusEffects = new ArrayList<>();
 
     public Character(double x, double y, int health) {
         super(x, y);
@@ -24,6 +30,16 @@ public abstract class Character extends GameObject implements Damagedable{
         setHp(getHp()-amount);
         setDamageTaken(amount);
         setDead(getHp());
+    }
+
+    @Override
+    public Rectangle2D getHitBox() {
+        return new Rectangle2D(getX()+75,getY()+9,65,100);
+    }
+
+    @Override
+    public void update() {
+
     }
 
     public void heal(int amount) {
@@ -48,18 +64,22 @@ public abstract class Character extends GameObject implements Damagedable{
         this.isPoisonShot = false;
     }
 
-    public void applyPoison(int duration, int damagePerTurn) {
-        this.poisonDuration = duration;
-        this.poisonDamage = damagePerTurn;
+    public void addStatusEffect(StatusEffect effect) {
+        activeStatusEffects.add(effect);
     }
 
     public void checkTurnStatus() {
-        if (poisonDuration > 0) {
-            takeDamage(poisonDamage);
-            poisonDuration--;
+        Iterator<StatusEffect> iterator = activeStatusEffects.iterator();
+        while (iterator.hasNext()) {
+            StatusEffect effect = iterator.next();
+
+            effect.onTurnStart(this);
+
+            if (effect.isFinished()) {
+                iterator.remove();
+            }
         }
     }
-
 
     public double getHp() {
         return hp;
@@ -86,16 +106,17 @@ public abstract class Character extends GameObject implements Damagedable{
     public void setDamageTaken(double damageTaken) {
         this.damageTaken = damageTaken;
     }
+
     public void setDead(double hp) {
         if (hp <= 0) {
             isDead = true;
-        }
-        else {
+        } else {
             isDead = false;
         }
     }
+
     public boolean isDead() {
-       return this.isDead;
+        return this.isDead;
     }
 
     public double getDamageMultiplier() {
@@ -110,5 +131,19 @@ public abstract class Character extends GameObject implements Damagedable{
         return isPoisonShot;
     }
 
-    public abstract void setAttacking(boolean isAttacking);
+    public void setAttacking(boolean isAttacking) {
+        this.isAttacking = isAttacking;
+    }
+
+    public boolean isDamaged() {
+        return isDamaged;
+    }
+
+    public void setDamaged(boolean isDamaged) {
+        this.isDamaged = isDamaged;
+    }
+
+    public ArrayList<StatusEffect> getActiveStatusEffects() {
+        return activeStatusEffects;
+    }
 }

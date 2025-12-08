@@ -2,16 +2,17 @@ package logic;
 
 import entity.base.Character;
 import entity.base.GameObject;
+import entity.base.Skill;
 import entity.playerSkill.Double;
 import entity.playerSkill.Growth;
 import entity.playerSkill.Heal;
 import entity.playerSkill.Toxic;
 import entity.playerunit.Carrot;
 import entity.playerunit.Onion;
+import entity.status.ToxicStatus;
 import entity.unit.Projectile;
 import gui.*;
 import javafx.animation.AnimationTimer;
-import javafx.geometry.Dimension2D;
 import javafx.scene.ImageCursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
@@ -191,7 +192,7 @@ public class GameManager {
         double angle;
         double scale = activePlayer.getProjectileScale();
 
-        javafx.scene.image.Image projectileImage = (activePlayer instanceof Onion) ?
+        Image projectileImage = (activePlayer instanceof Onion) ?
                 ((Onion) activePlayer).getProjectileImage() :
                 ((Carrot) activePlayer).getProjectileImage();
 
@@ -228,7 +229,7 @@ public class GameManager {
         boolean isPoison = activePlayer.isPoisonShot();
 
         //set starter damage * dmgMult
-        double totalDamage = currentPower * 0.3 * dmgMult;
+        double totalDamage = currentPower * 0.15 * dmgMult;
 
         currentProjectile = new Projectile(startX, startY, projectileImage, angle, currentPower / 5.0,totalDamage,scale,isPoison);
         allObjects.add(currentProjectile);
@@ -284,10 +285,10 @@ public class GameManager {
 
 
                 if (currentProjectile.isPoisonous()) {
-                    opponent.applyPoison(
+                    opponent.addStatusEffect(new ToxicStatus(
                             currentProjectile.getPoisonDuration(),
                             currentProjectile.getPoisonDamage()
-                    );
+                    ));
                 }
 
                 // TODO: Change opponent's image to a damaged one
@@ -329,6 +330,8 @@ public class GameManager {
     }
 
     private void switchTurn() {
+        carrot.setDamaged(false);
+        onion.setDamaged(false);
         currentPlayerTurn = (currentPlayerTurn == PlayerTurn.PLAYER_ONE) ? PlayerTurn.PLAYER_TWO : PlayerTurn.PLAYER_ONE;
         getActivePlayer().checkTurnStatus();
         updateCursor();

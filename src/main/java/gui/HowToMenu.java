@@ -20,6 +20,8 @@ public class HowToMenu extends VBox {
 
         BackgroundSize backgroundSize = new BackgroundSize(100,100 , true, true, false, true);
         BackgroundImage backgroundImage = new BackgroundImage(new Image("background/howTo.png"), BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,backgroundSize);
+        this.setBackground(new Background(backgroundImage));
+
 
         Text header = new Text("HOW TO PLAY");
         Font myFont = Font.loadFont(getClass().getResourceAsStream("/font/comicy.ttf"),50);
@@ -52,10 +54,10 @@ public class HowToMenu extends VBox {
         HBox skillRow = new HBox(30);
         skillRow.setAlignment(Pos.CENTER);
 
-        VBox item1 = SkillDescription("/icon/healCarrot.png", "HEALING CARROT");
-        VBox item2 = SkillDescription("/icon/doubleCarrot.png", "DOUBLE CARROT");
-        VBox item3 = SkillDescription("/icon/toxicOnion.png", "TOXIC ONION");
-        VBox item4 = SkillDescription("/icon/growthOnion.png", "GROWTH ONION");
+        VBox item1 = SkillDescription("/icon/skillIcon/healCarrot.png", "HEALING CARROT");
+        VBox item2 = SkillDescription("/icon/skillIcon/doubleCarrot.png", "DOUBLE CARROT");
+        VBox item3 = SkillDescription("/icon/skillIcon/toxicOnion.png", "TOXIC ONION");
+        VBox item4 = SkillDescription("/icon/skillIcon/growthOnion.png", "GROWTH ONION");
 
         skillRow.getChildren().addAll(item1, item2, item3, item4);
 
@@ -67,12 +69,8 @@ public class HowToMenu extends VBox {
             }
         });
 
-        this.setBackground(new Background(backgroundImage));
-        this.getChildren().addAll(header,line1,line2,line3,line4,line5,skillRow,plyBtn);
-    }
 
-    public void setOnStartAction(Runnable onStartAction) {
-        this.onStartAction = onStartAction;
+        this.getChildren().addAll(header,line1,line2,line3,line4,line5,skillRow,plyBtn);
     }
 
     //Skill description
@@ -142,4 +140,9 @@ public class HowToMenu extends VBox {
 
         return pane;
     }
+
+    public void setOnStartAction(Runnable onStartAction) {
+        this.onStartAction = onStartAction;
+    }
+
 }

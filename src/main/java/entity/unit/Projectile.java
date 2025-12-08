@@ -1,6 +1,7 @@
 package entity.unit;
 
 import entity.base.GameObject;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -16,10 +17,10 @@ public class Projectile extends GameObject {
     private double damage;
     private boolean isPoisonous;
     private int poisonDuration;
-    private int poisonDamage;
+    private double poisonDamage;
 
     public Projectile(double startX, double startY, Image image, double angle, double power, double damage,
-                       double scale, boolean isPoison) {
+                      double scale, boolean isPoison) {
 
         super(startX, startY);
 
@@ -42,11 +43,21 @@ public class Projectile extends GameObject {
 
         if (isPoison) {
             this.poisonDuration = 2;
-            this.poisonDamage = 10;
+            this.poisonDamage = damage*0.5;
         } else {
             this.poisonDuration = 0;
             this.poisonDamage = 0;
         }
+    }
+
+    @Override
+    public Rectangle2D getHitBox() {
+        return new Rectangle2D(getX(),getY(),50,50);
+    }
+
+    @Override
+    public boolean isIntersects(GameObject other) {
+        return false;
     }
 
     @Override
@@ -67,7 +78,7 @@ public class Projectile extends GameObject {
     @Override
     public void render(GraphicsContext gc) {
         if (image != null) {
-            gc.drawImage(image, x, y, width, height);
+            gc.drawImage(image, getX(), getY(), getWidth(), getHeight());
         }
     }
 
@@ -83,7 +94,7 @@ public class Projectile extends GameObject {
         return isPoisonous;
     }
 
-    public int getPoisonDamage() {
+    public double getPoisonDamage() {
         return poisonDamage;
     }
 

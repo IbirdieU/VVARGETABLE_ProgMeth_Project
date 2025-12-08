@@ -15,9 +15,8 @@ public abstract class GameObject {
         this.y = y;
     }
 
-    public Rectangle2D getHitBox() {
-        return new Rectangle2D(getX(),getY(),getWidth(),getHeight());
-    }
+    public abstract Rectangle2D getHitBox();
+
     public boolean isIntersects(GameObject other) {
         return this.getHitBox().intersects(other.getHitBox());
     }
