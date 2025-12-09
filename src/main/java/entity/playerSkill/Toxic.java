@@ -1,7 +1,7 @@
 package entity.playerSkill;
 
 import logic.GameManager;
-import entity.base.Skill;
+import logic.Skill;
 
 public class Toxic extends Skill {
     public Toxic() {
@@ -11,5 +11,6 @@ public class Toxic extends Skill {
     @Override
     public void activate(GameManager gameManager) {
         gameManager.getActivePlayer().toxic();
+        System.out.println("Toxic!");
     }
 }

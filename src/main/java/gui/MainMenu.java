@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-
+import util.UIButton;
 
 
 public class MainMenu extends VBox {
@@ -24,70 +24,27 @@ public class MainMenu extends VBox {
         BackgroundImage backgroundImage = new BackgroundImage(new Image("background/howTo.png"),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT,backgroundSize);
         this.setBackground(new Background(backgroundImage));
 
+
         Font myFont = Font.loadFont(getClass().getResourceAsStream("/font/comicy.ttf"),50);
 
         Text welcomeText = new Text("Welcome to VVGETABLE game");
         welcomeText.setFont(myFont);
 
         /// How to button
-        StackPane helpBtn = SignButton("HOW TO PLAY","/background/woodSign.png",() -> {
+        StackPane helpBtn = UIButton.SignButton("HOW TO PLAY","/background/woodSign.png",() -> {
             if (onHowToAction != null) {
                 onHowToAction.run();
             }
         });
 
         /// Play button
-        StackPane plyBtn = SignButton("PLAY","/background/woodSign.png",() -> {
+        StackPane plyBtn = UIButton.SignButton("PLAY","/background/woodSign.png",() -> {
             if (onStartAction != null) {
                 onStartAction.run();
             }
         });
 
         this.getChildren().addAll(welcomeText,helpBtn,plyBtn);
-    }
-
-    private StackPane SignButton(String content,String imagePath,Runnable action){
-        Image img = null;
-        try {
-            img = new Image(getClass().getResourceAsStream(imagePath));
-        } catch (NullPointerException e) {
-            System.out.println("Not Found: " + imagePath);
-        }
-        ImageView sign = new ImageView(img);
-
-        sign.setFitWidth(300);
-        sign.setPreserveRatio(true);
-        sign.setTranslateY(-7);
-        sign.setTranslateX(4);
-
-        Button btn = new Button("");
-        Text textTitle = new Text(content);
-        textTitle.setFont(Font.font("Tahoma", FontWeight.BOLD, 30));
-        textTitle.setStroke(Color.BLACK);
-        textTitle.setStrokeWidth(1);
-
-        btn.setGraphic(textTitle);
-
-        btn.setStyle("-fx-background-color: transparent; ");
-
-        btn.setCursor(Cursor.HAND);
-
-        btn.setOnMouseEntered(e -> {
-            textTitle.setStroke(Color.WHITE);
-        });
-
-        btn.setOnMouseExited(e -> {
-            textTitle.setStroke(Color.BLACK);
-        });
-
-        btn.setOnAction(e -> {
-            if (action != null) action.run();
-        });
-
-        StackPane pane = new StackPane();
-        pane.getChildren().addAll(sign,btn);
-
-        return pane;
     }
 
     public void setOnHowToAction(Runnable onHowToAction) {

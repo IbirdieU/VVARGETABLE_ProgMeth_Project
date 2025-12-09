@@ -1,7 +1,7 @@
 package entity.playerSkill;
 
 import logic.GameManager;
-import entity.base.Skill;
+import logic.Skill;
 
 public class Growth extends Skill {
     public Growth() {

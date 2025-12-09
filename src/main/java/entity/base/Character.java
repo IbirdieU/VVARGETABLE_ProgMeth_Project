@@ -1,5 +1,7 @@
 package entity.base;
 
+import entity.status.ShieldStatus;
+import entity.status.StunStatus;
 import javafx.geometry.Rectangle2D;
 
 import java.util.ArrayList;
@@ -8,14 +10,17 @@ import java.util.Iterator;
 public abstract class Character extends GameObject implements Damagedable{
     protected double hp;
     protected double maxHp;
-    protected double damageTaken;
     protected boolean isDead = false;
-    protected boolean isDamaged = false;
+
+    private static final double DAMAGED_STATE_DURATION_S = 1.0; // 1 second
+    private double damagedStateTimer = 0; // Timer for how long to show damaged sprite
+
     protected boolean isAttacking = false;
 
     protected double damageMultiplier = 1.0;
     protected double projectileScale = 1.0;
     protected boolean isPoisonShot = false;
+    protected boolean isStunShot = false;
 
     private ArrayList<StatusEffect> activeStatusEffects = new ArrayList<>();
 
@@ -27,21 +32,31 @@ public abstract class Character extends GameObject implements Damagedable{
     }
     @Override
     public void takeDamage(double amount) {
-        setHp(getHp()-amount);
-        setDamageTaken(amount);
+        double reduction = 1.0;
+
+        for (StatusEffect effect : getActiveStatusEffects()) {
+            if (effect instanceof ShieldStatus) {
+                reduction *= ((ShieldStatus) effect).getDamageReduction();
+            }
+        }
+
+        double finalDamage = amount * reduction;
+        setHp(getHp() - finalDamage);
         setDead(getHp());
+        this.damagedStateTimer = DAMAGED_STATE_DURATION_S; // Set the timer when damage is taken
     }
 
     @Override
     public Rectangle2D getHitBox() {
         return new Rectangle2D(getX()+75,getY()+9,65,100);
     }
-
+    
     @Override
-    public void update() {
-
+    public void update(double deltaTime) { // Update the timer
+        if (damagedStateTimer > 0) {
+            damagedStateTimer -= deltaTime;
+        }
     }
-
     public void heal(int amount) {
         setHp(getHp()+amount);
     }
@@ -62,23 +77,44 @@ public abstract class Character extends GameObject implements Damagedable{
         this.damageMultiplier = 1.0;
         this.projectileScale = 1.0;
         this.isPoisonShot = false;
+        this.isStunShot = false;
     }
 
     public void addStatusEffect(StatusEffect effect) {
         activeStatusEffects.add(effect);
     }
 
-    public void checkTurnStatus() {
+    public boolean checkTurnStatus() {
+        boolean shouldSkipTurn = false;
+
         Iterator<StatusEffect> iterator = activeStatusEffects.iterator();
         while (iterator.hasNext()) {
             StatusEffect effect = iterator.next();
 
             effect.onTurnStart(this);
 
+            //Stun
+            if (effect instanceof StunStatus) {
+                if (((StunStatus) effect).shouldSkipTurn()) {
+                    shouldSkipTurn = true;
+                }
+            }
+
+            //Toxic
             if (effect.isFinished()) {
                 iterator.remove();
             }
         }
+
+        return shouldSkipTurn;
+    }
+
+    public void stunShot() {
+        this.isStunShot = true;
+    }
+
+    public boolean isStunShot() {
+        return isStunShot;
     }
 
     public double getHp() {
@@ -99,24 +135,16 @@ public abstract class Character extends GameObject implements Damagedable{
         return maxHp;
     }
 
-    public double getDamageTaken() {
-        return damageTaken;
-    }
-
-    public void setDamageTaken(double damageTaken) {
-        this.damageTaken = damageTaken;
-    }
-
     public void setDead(double hp) {
         if (hp <= 0) {
             isDead = true;
-        } else {
+        }
+        else {
             isDead = false;
         }
     }
-
     public boolean isDead() {
-        return this.isDead;
+       return this.isDead;
     }
 
     public double getDamageMultiplier() {
@@ -135,12 +163,8 @@ public abstract class Character extends GameObject implements Damagedable{
         this.isAttacking = isAttacking;
     }
 
-    public boolean isDamaged() {
-        return isDamaged;
-    }
-
-    public void setDamaged(boolean isDamaged) {
-        this.isDamaged = isDamaged;
+    public boolean isShowingDamaged() {
+        return damagedStateTimer > 0;
     }
 
     public ArrayList<StatusEffect> getActiveStatusEffects() {

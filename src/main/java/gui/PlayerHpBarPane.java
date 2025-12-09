@@ -31,7 +31,7 @@ public class PlayerHpBarPane extends Pane {
         p1SkillBox = new HBox(10);
         p2SkillBox = new HBox(10);
 
-        // Skills
+        /// Skills
         p1SkillBox.setLayoutX(60);
         p1SkillBox.setLayoutY(90);
 
@@ -77,7 +77,7 @@ public class PlayerHpBarPane extends Pane {
                 carrotHpBar,p1SkillBox, p2SkillBox,p1StatusBox, p2StatusBox);
         this.setStyle("-fx-background-color: transparent;");
 
-        //update();
+        update();
     }
 
     public void update() {
@@ -91,12 +91,12 @@ public class PlayerHpBarPane extends Pane {
         updateStatusIcons(p2StatusBox, onion);
     }
 
-    public void setSkills(SkillButton s1, SkillButton s2, SkillButton s3, SkillButton s4) {
+    public void setSkills(SkillButton c1, SkillButton c2, SkillButton c3, SkillButton o1,SkillButton o2, SkillButton o3) {
         p1SkillBox.getChildren().clear();
         p2SkillBox.getChildren().clear();
 
-        p1SkillBox.getChildren().addAll(s1, s2);
-        p2SkillBox.getChildren().addAll(s3, s4);
+        p1SkillBox.getChildren().addAll(c1, c2,c3);
+        p2SkillBox.getChildren().addAll(o1, o2,o3);
     }
 
     private void updateStatusIcons(HBox statusBox, entity.base.Character character) {
@@ -105,8 +105,8 @@ public class PlayerHpBarPane extends Pane {
         for (StatusEffect effect : character.getActiveStatusEffects()) {
             if (effect.getIcon() != null) {
                 ImageView iconView = new ImageView(effect.getIcon());
-                iconView.setFitWidth(50);
-                iconView.setFitHeight(50);
+                iconView.setFitWidth(60);
+                iconView.setFitHeight(60);
 
                 statusBox.getChildren().add(iconView);
             }

@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import util.UIButton;
 
 public class HowToMenu extends VBox {
     private Runnable onStartAction;
@@ -20,8 +21,6 @@ public class HowToMenu extends VBox {
 
         BackgroundSize backgroundSize = new BackgroundSize(100,100 , true, true, false, true);
         BackgroundImage backgroundImage = new BackgroundImage(new Image("background/howTo.png"), BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,backgroundSize);
-        this.setBackground(new Background(backgroundImage));
-
 
         Text header = new Text("HOW TO PLAY");
         Font myFont = Font.loadFont(getClass().getResourceAsStream("/font/comicy.ttf"),50);
@@ -56,21 +55,27 @@ public class HowToMenu extends VBox {
 
         VBox item1 = SkillDescription("/icon/skillIcon/healCarrot.png", "HEALING CARROT");
         VBox item2 = SkillDescription("/icon/skillIcon/doubleCarrot.png", "DOUBLE CARROT");
-        VBox item3 = SkillDescription("/icon/skillIcon/toxicOnion.png", "TOXIC ONION");
-        VBox item4 = SkillDescription("/icon/skillIcon/growthOnion.png", "GROWTH ONION");
+        VBox item3 = SkillDescription("/icon/skillIcon/stunnedCarrot.png","STUNNED CARROT");
+        VBox item4 = SkillDescription("/icon/skillIcon/toxicOnion.png", "TOXIC ONION");
+        VBox item5 = SkillDescription("/icon/skillIcon/growthOnion.png", "GROWTH ONION");
+        VBox item6 = SkillDescription("/icon/skillIcon/shieldedOnion.png","SHIELDED ONION");
 
-        skillRow.getChildren().addAll(item1, item2, item3, item4);
+        skillRow.getChildren().addAll(item1, item2, item3, item4,item5,item6);
 
 
         /// Play button
-        StackPane plyBtn = SignButton("PLAY","/background/woodSign.png",() -> {
+        StackPane plyBtn = UIButton.SignButton("PLAY","/background/woodSign.png",() -> {
             if (onStartAction != null) {
                 onStartAction.run();
             }
         });
 
-
+        this.setBackground(new Background(backgroundImage));
         this.getChildren().addAll(header,line1,line2,line3,line4,line5,skillRow,plyBtn);
+    }
+
+    public void setOnStartAction(Runnable onStartAction) {
+        this.onStartAction = onStartAction;
     }
 
     //Skill description
@@ -95,54 +100,4 @@ public class HowToMenu extends VBox {
 
         return itemBox;
     }
-
-    //Button
-    private StackPane SignButton(String content,String imagePath,Runnable action){
-        Image img = null;
-        try {
-            img = new Image(getClass().getResourceAsStream(imagePath));
-        } catch (NullPointerException e) {
-            System.out.println("Not Found: " + imagePath);
-        }
-        ImageView sign = new ImageView(img);
-
-        sign.setFitWidth(300);
-        sign.setPreserveRatio(true);
-        sign.setTranslateY(-7);
-        sign.setTranslateX(4);
-
-        Button btn = new Button("");
-        Text textTitle = new Text(content);
-        textTitle.setFont(Font.font("Tahoma", FontWeight.BOLD, 30));
-        textTitle.setStroke(Color.BLACK);
-        textTitle.setStrokeWidth(1);
-
-        btn.setGraphic(textTitle);
-
-        btn.setStyle("-fx-background-color: transparent; ");
-
-        btn.setCursor(Cursor.HAND);
-
-        btn.setOnMouseEntered(e -> {
-            textTitle.setStroke(Color.WHITE);
-        });
-
-        btn.setOnMouseExited(e -> {
-            textTitle.setStroke(Color.BLACK);
-        });
-
-        btn.setOnAction(e -> {
-            if (action != null) action.run();
-        });
-
-        StackPane pane = new StackPane();
-        pane.getChildren().addAll(sign,btn);
-
-        return pane;
-    }
-
-    public void setOnStartAction(Runnable onStartAction) {
-        this.onStartAction = onStartAction;
-    }
-
 }

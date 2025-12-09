@@ -1,7 +1,7 @@
 package entity.playerSkill;
 
 import logic.GameManager;
-import entity.base.Skill;
+import logic.Skill;
 
 public class Heal extends Skill {
     public Heal() {
@@ -12,5 +12,7 @@ public class Heal extends Skill {
     public void activate(GameManager gameManager) {
         gameManager.getActivePlayer().heal(30);
         System.out.println("Used Heal!");
+
+        gameManager.forceEndTurn();
     }
 }

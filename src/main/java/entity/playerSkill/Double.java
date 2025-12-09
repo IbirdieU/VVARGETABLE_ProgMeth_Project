@@ -1,7 +1,7 @@
 package entity.playerSkill;
 
 import logic.GameManager;
-import entity.base.Skill;
+import logic.Skill;
 
 public class Double extends Skill {
     public Double() {

@@ -1,5 +1,5 @@
 package entity.base;
 
 public interface Damagedable {
-    public void takeDamage(double amount);
+    void takeDamage(double amount);
 }

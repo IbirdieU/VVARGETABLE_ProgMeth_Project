@@ -10,6 +10,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
+import util.UIButton;
 
 public class GameOverPane extends StackPane {
     private Runnable onRestart;
@@ -50,13 +51,13 @@ public class GameOverPane extends StackPane {
         TextFlow titleFlow = new TextFlow(nameText, winText);
         titleFlow.setTextAlignment(TextAlignment.CENTER);
 
-        StackPane replyBtn = SignButton("RETRY","/background/woodSign.png",() -> {
+        StackPane replyBtn = UIButton.SignButton("RETRY","/background/woodSign.png",() -> {
             if (onRestart != null) {
                 onRestart.run();
             }
         });
 
-        StackPane exitBtn = SignButton("MENU","/background/woodSign.png",() -> {
+        StackPane exitBtn = UIButton.SignButton("MENU","/background/woodSign.png",() -> {
             if (onExit != null) {
                 onExit.run();
             }
@@ -71,51 +72,6 @@ public class GameOverPane extends StackPane {
         window.getChildren().addAll(bgView, content);
 
         this.getChildren().add(window);
-    }
-
-    //Button
-    private StackPane SignButton(String content,String imagePath,Runnable action){
-        Image img = null;
-        try {
-            img = new Image(getClass().getResourceAsStream(imagePath));
-        } catch (NullPointerException e) {
-            System.out.println("Not Found: " + imagePath);
-        }
-        ImageView sign = new ImageView(img);
-
-        sign.setFitWidth(300);
-        sign.setPreserveRatio(true);
-        sign.setTranslateY(-7);
-        sign.setTranslateX(4);
-
-        Button btn = new Button("");
-        Text textTitle = new Text(content);
-        textTitle.setFont(Font.font("Tahoma", FontWeight.BOLD, 30));
-        textTitle.setStroke(Color.BLACK);
-        textTitle.setStrokeWidth(1);
-
-        btn.setGraphic(textTitle);
-
-        btn.setStyle("-fx-background-color: transparent; ");
-
-        btn.setCursor(Cursor.HAND);
-
-        btn.setOnMouseEntered(e -> {
-            textTitle.setStroke(Color.WHITE);
-        });
-
-        btn.setOnMouseExited(e -> {
-            textTitle.setStroke(Color.BLACK);
-        });
-
-        btn.setOnAction(e -> {
-            if (action != null) action.run();
-        });
-
-        StackPane pane = new StackPane();
-        pane.getChildren().addAll(sign,btn);
-
-        return pane;
     }
 
     public void setOnRestart(Runnable onRestart) {this.onRestart = onRestart;}

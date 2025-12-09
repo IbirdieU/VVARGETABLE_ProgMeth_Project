@@ -26,8 +26,6 @@ public class IntroMenu extends VBox {
 
         BackgroundSize backgroundSize = new BackgroundSize(100,100 , true, true, false, true);
         BackgroundImage backgroundImage = new BackgroundImage(new Image("background/opening.png"),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT,backgroundSize);
-        this.setBackground(new Background(backgroundImage));
-
 
         HBox characterRow = new HBox(50);
         characterRow.setAlignment(Pos.BASELINE_CENTER);
@@ -70,6 +68,7 @@ public class IntroMenu extends VBox {
 
         startBtn.setOnMouseExited(e -> {
             textTitle.setStroke(Color.BLACK);
+            textTitle.setStrokeWidth(1);
         });
 
         startBtn.setOnAction(actionEvent -> {
@@ -78,6 +77,7 @@ public class IntroMenu extends VBox {
             }
         });
 
+        this.setBackground(new Background(backgroundImage));
         this.getChildren().addAll(header,startBtn);
 
     }

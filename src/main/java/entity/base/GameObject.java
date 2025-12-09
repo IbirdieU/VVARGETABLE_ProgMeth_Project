@@ -20,7 +20,7 @@ public abstract class GameObject {
     public boolean isIntersects(GameObject other) {
         return this.getHitBox().intersects(other.getHitBox());
     }
-    public abstract void update();
+    public abstract void update(double deltaTime);
 
     public abstract void render(GraphicsContext gc);
 

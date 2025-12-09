@@ -7,9 +7,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import logic.GameManager;
-import entity.base.Skill;
+import logic.Skill;
 
 public class SkillButton extends StackPane {
     private Skill skill;
@@ -37,7 +38,7 @@ public class SkillButton extends StackPane {
             // ถ้าไม่มีรูป ให้ใส่ชื่อสกิลลงไปแทน
             btn.setText(skill.getName());
             btn.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-            btn.setPrefSize(60, 60);
+            btn.setPrefSize(60, 60); // กำหนดขนาดปุ่มให้เท่าๆ กัน
         }
 
  */

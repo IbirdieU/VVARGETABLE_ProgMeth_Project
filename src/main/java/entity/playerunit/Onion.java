@@ -8,7 +8,7 @@ public class Onion extends Character {
     private static final Image NORMAL_IMG = new Image("playerImage/onion.png");
     private static final Image ATTACK_IMG = new Image("playerImage/attackOnion.png");
     private static final Image DAMAGED_IMG = new Image("playerImage/damagedOnion.png");
-    private static final Image PROJECTILE_IMG = new Image("projectileImage/throwingOnion.png");
+    private static final Image PROJECTILE_IMG = new Image("unitImage/throwingOnion.png");
     public Onion(double x, double y, int health) {
         super(x, y, health);
         setWidth(NORMAL_IMG.getWidth()/5);
@@ -19,7 +19,7 @@ public class Onion extends Character {
     @Override
     public void render(GraphicsContext gc) {
         Image imageToRender;
-        if (isDamaged) {
+        if (isShowingDamaged()) {
             imageToRender = DAMAGED_IMG;
         } else if (isAttacking) {
             imageToRender = ATTACK_IMG;
