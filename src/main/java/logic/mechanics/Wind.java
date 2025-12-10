@@ -13,10 +13,7 @@ public class Wind {
         randomize(); // Initialize with random wind
     }
 
-    /**
-     * Should be called at the start of each new round.
-     * Decrements the duration and randomizes the wind if the duration has expired.
-     */
+
     public void onNewRound() {
         duration--;
         if (duration <= 0) {

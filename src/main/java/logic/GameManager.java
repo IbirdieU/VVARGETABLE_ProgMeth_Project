@@ -227,7 +227,7 @@ public class GameManager {
     public void setCurrentTurnState(TurnState currentTurnState) {
         turnManager.setCurrentTurnState(currentTurnState);
     }
-    
+
     public TurnManager getTurnManager() {
         return turnManager;
     }

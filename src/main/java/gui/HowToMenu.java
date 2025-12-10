@@ -56,8 +56,8 @@ public class HowToMenu extends VBox {
 
         VBox item1 = SkillDescription("/icon/skillIcon/healCarrot.png", "HEALING CARROT");
         VBox item2 = SkillDescription("/icon/skillIcon/doubleCarrot.png", "DOUBLE CARROT");
-        VBox item3 = SkillDescription("/icon/skillIcon/stunnedCarrot.png", "TOXIC ONION");
-        VBox item4 = SkillDescription("/icon/skillIcon/toxicOnion.png", "GROWTH ONION");
+        VBox item3 = SkillDescription("/icon/skillIcon/stunnedCarrot.png", "STUNNED CARROT");
+        VBox item4 = SkillDescription("/icon/skillIcon/toxicOnion.png", "TOXIC ONION");
         VBox item5 = SkillDescription("/icon/skillIcon/growthOnion.png", "GROWTH ONION");
         VBox item6 = SkillDescription("/icon/skillIcon/shieldedOnion.png","SHIELDED ONION");
         skillRow.getChildren().addAll(item1, item2, item3, item4, item5, item6);

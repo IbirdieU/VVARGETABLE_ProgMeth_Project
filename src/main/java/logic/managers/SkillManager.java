@@ -11,8 +11,12 @@ public class SkillManager {
     private final GameManager gameManager;
     private final PlayerStatusPane playerStatusPane;
 
-    private SkillButton p1Skill1, p1Skill2, p1Skill3;
-    private SkillButton p2Skill1, p2Skill2, p2Skill3;
+    private SkillButton p1Skill1;
+    private SkillButton p1Skill2;
+    private SkillButton p1Skill3;
+    private SkillButton p2Skill1;
+    private SkillButton p2Skill2;
+    private SkillButton p2Skill3;
 
     public SkillManager(GameManager gameManager, PlayerStatusPane playerStatusPane) {
         this.gameManager = gameManager;

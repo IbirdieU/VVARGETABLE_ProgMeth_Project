@@ -33,26 +33,32 @@ public class SoundManager {
     }
 
     public static void playStrikeSound() {
+
         strikeSound.play();
     }
 
     public static void playSkillSound() {
+
         skillUsedSound.play();
     }
 
     public static void playTickingSound() {
+
         tickingSound.play();
     }
 
     public static void playClickSound() {
+
         clickSound.play();
     }
 
     public static void playHoverSound() {
+
         hoverSound.play();
     }
 
     public static void playBackgroundMusic() {
+
         bgmPlayer.play();
     }
 }
