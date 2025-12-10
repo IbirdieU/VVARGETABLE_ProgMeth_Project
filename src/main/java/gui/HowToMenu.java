@@ -46,7 +46,7 @@ public class HowToMenu extends VBox {
         line5.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
         line5.setFill(Color.RED);
 
-        Text line6 = new Text("Click to select the special skills before you throw. Each cooldown is 4 turn");
+        Text line6 = new Text("Click to select the special skills before you throw. Each cooldown is 5 turn");
         line6.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
         line6.setFill(Color.BLACK);
 
