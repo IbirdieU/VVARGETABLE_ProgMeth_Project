@@ -14,6 +14,6 @@ public class StunStatus extends StatusEffect {
     }
 
     public boolean shouldSkipTurn() {
-        return true;
+        return duration > 1;
     }
 }

@@ -48,7 +48,7 @@ public abstract class Character extends GameObject implements Damagedable{
 
     @Override
     public Rectangle2D getHitBox() {
-        return new Rectangle2D(getX()+75,getY()+9,65,100);
+        return new Rectangle2D(getX()+75,getY()+12,65,100);
     }
     
     @Override
@@ -63,6 +63,10 @@ public abstract class Character extends GameObject implements Damagedable{
 
     public void toxic(){
         this.isPoisonShot = true;
+    }
+
+    public void stunShot() {
+        this.isStunShot = true;
     }
 
     public void doubleDamage(){
@@ -91,14 +95,14 @@ public abstract class Character extends GameObject implements Damagedable{
         while (iterator.hasNext()) {
             StatusEffect effect = iterator.next();
 
-            effect.onTurnStart(this);
-
             //Stun
             if (effect instanceof StunStatus) {
                 if (((StunStatus) effect).shouldSkipTurn()) {
                     shouldSkipTurn = true;
                 }
             }
+
+            effect.onTurnStart(this);
 
             //Toxic
             if (effect.isFinished()) {
@@ -109,13 +113,10 @@ public abstract class Character extends GameObject implements Damagedable{
         return shouldSkipTurn;
     }
 
-    public void stunShot() {
-        this.isStunShot = true;
-    }
+    public abstract double getLaunchX();
+    public abstract double getLaunchY();
+    public abstract double getLaunchAngle();
 
-    public boolean isStunShot() {
-        return isStunShot;
-    }
 
     public double getHp() {
         return hp;
@@ -158,6 +159,11 @@ public abstract class Character extends GameObject implements Damagedable{
     public boolean isPoisonShot() {
         return isPoisonShot;
     }
+
+    public boolean isStunShot() {
+        return isStunShot;
+    }
+
 
     public void setAttacking(boolean isAttacking) {
         this.isAttacking = isAttacking;

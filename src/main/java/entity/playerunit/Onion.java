@@ -32,4 +32,20 @@ public class Onion extends Character {
     public Image getProjectileImage() {
         return PROJECTILE_IMG;
     }
+
+    @Override
+    public double getLaunchX() {
+        return getX() + 65;
+    }
+
+    @Override
+    public double getLaunchY() {
+        double realHeight = getProjectileImage().getHeight() * 0.2 * getProjectileScale();
+        return getY() + (getHeight() / 2) - (realHeight / 2);
+    }
+
+    @Override
+    public double getLaunchAngle() {
+        return -120;
+    }
 }

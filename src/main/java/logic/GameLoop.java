@@ -2,7 +2,7 @@ package logic;
 
 import entity.base.GameObject;
 import gui.GamePane;
-import gui.PlayerHpBarPane;
+import gui.PlayerStatusPane;
 import javafx.animation.AnimationTimer;
 
 import java.util.ArrayList;
@@ -11,14 +11,14 @@ public class GameLoop extends AnimationTimer {
 
     private final GameManager gameManager;
     private final GamePane gamePane;
-    private final PlayerHpBarPane playerHpBarPane;
+    private final PlayerStatusPane playerStatusPane;
     private final ArrayList<GameObject> allObjects;
     private long lastNanoTime = System.nanoTime();
 
-    public GameLoop(GameManager gameManager, GamePane gamePane, PlayerHpBarPane playerHpBarPane, ArrayList<GameObject> allObjects) {
+    public GameLoop(GameManager gameManager, GamePane gamePane, PlayerStatusPane playerStatusPane, ArrayList<GameObject> allObjects) {
         this.gameManager = gameManager;
         this.gamePane = gamePane;
-        this.playerHpBarPane = playerHpBarPane;
+        this.playerStatusPane = playerStatusPane;
         this.allObjects = allObjects;
     }
 
@@ -41,7 +41,7 @@ public class GameLoop extends AnimationTimer {
         }
 
         gameManager.update(deltaTime);
-        playerHpBarPane.update();
+        playerStatusPane.update();
         gamePane.drawObjects();
         gameManager.checkGameOver();
     }

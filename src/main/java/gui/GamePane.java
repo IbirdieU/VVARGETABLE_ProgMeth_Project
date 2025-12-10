@@ -12,7 +12,7 @@ public class GamePane extends StackPane {
     private ArrayList<GameObject> allObjects;
     private GraphicsContext gc;
 
-    public GamePane(Canvas canvas, ArrayList<GameObject> allObjects) {
+    public GamePane(Canvas canvas, ArrayList<GameObject> allObjects,String background) {
         super();
         this.canvas = canvas;
         this.allObjects = allObjects;
@@ -21,7 +21,7 @@ public class GamePane extends StackPane {
         this.getChildren().add(canvas);
 
         BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, false, true);
-        BackgroundImage backgroundImage = new BackgroundImage(new Image("background/inGameBackgroundWall.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+        BackgroundImage backgroundImage = new BackgroundImage(new Image(background), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
         this.setBackground(new Background(backgroundImage));
     }
 

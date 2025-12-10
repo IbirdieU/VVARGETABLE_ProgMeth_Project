@@ -7,10 +7,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import logic.GameManager;
-import logic.Skill;
+import logic.skills.Skill;
 
 public class SkillButton extends StackPane {
     private Skill skill;
@@ -18,9 +17,11 @@ public class SkillButton extends StackPane {
     private Text cooldownText;
     private ImageView iconView;
     private boolean isOwnerTurn = false;
+    private GameManager gameManager;
 
     public SkillButton(Skill skill, GameManager gm) {
         this.skill = skill;
+        this.gameManager = gm;
 
 
         btn = new Button();
@@ -55,9 +56,10 @@ public class SkillButton extends StackPane {
 
 
         btn.setOnAction(e -> {
-            if (skill.isReady()) {
+            if (skill.isReady() && isOwnerTurn) {
                 skill.use(gm);
                 updateUI();
+                gameManager.handleSkillUsage();
             }
         });
 
