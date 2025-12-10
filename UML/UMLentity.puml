@@ -1,0 +1,194 @@
+@startuml
+class entity.unit.ProjectileStats {
+- double damage
+- double scale
+- boolean isPoisonous
+- boolean isStun
+- int poisonDuration
+- double poisonDamage
++ double getDamage()
++ double getScale()
++ boolean isPoisonous()
++ boolean isStun()
++ int getPoisonDuration()
++ double getPoisonDamage()
+}
+
+
+abstract class entity.base.GameObject {
+# double width
+# double height
+# double x
+# double y
++ {abstract}Rectangle2D getHitBox()
++ boolean isIntersects(GameObject)
++ {abstract}void update(double)
++ {abstract}void render(GraphicsContext)
++ double getWidth()
++ void setWidth(double)
++ double getY()
++ void setY(double)
++ double getX()
++ void setX(double)
++ double getHeight()
++ void setHeight(double)
+}
+
+
+abstract class entity.base.Character {
+# double hp
+# double maxHp
+# boolean isDead
+- {static} double DAMAGED_STATE_DURATION_S
+- double damagedStateTimer
+# boolean isAttacking
+# double damageMultiplier
+# double projectileScale
+- ArrayList<StatusEffect> activeStatusEffects
++ void takeDamage(double)
++ Rectangle2D getHitBox()
++ void update(double)
++ void heal(int)
++ void toxic()
++ void stunShot()
++ void doubleDamage()
++ void growth()
++ void resetBuffs()
++ void addStatusEffect(StatusEffect)
++ boolean checkTurnStatus()
++ Projectile shoot(double,Wind,boolean)
++ {abstract}double getLaunchX()
++ {abstract}double getLaunchY()
++ {abstract}double getLaunchAngle()
++ {abstract}Image getProjectileImage()
++ {abstract}boolean isPoisonShot()
++ {abstract}boolean isStunShot()
++ double getHp()
++ void setHp(double)
++ double getMaxHp()
++ void setDead(double)
++ boolean isDead()
++ double getDamageMultiplier()
++ double getProjectileScale()
++ void setAttacking(boolean)
++ boolean isShowingDamaged()
++ ArrayList<StatusEffect> getActiveStatusEffects()
+}
+
+
+class entity.status.ToxicStatus {
+- double damagePerTurn
+- boolean isFresh
++ void activate(Character)
+}
+
+
+abstract class entity.base.StatusEffect {
+# int duration
+# Image icon
++ void onTurnStart(Character)
++ {abstract}void activate(Character)
++ boolean isFinished()
++ Image getIcon()
+}
+
+
+class entity.playerunit.Carrot {
+- {static} Image NORMAL_IMG
+- {static} Image ATTACK_IMG
+- {static} Image DAMAGED_IMG
+- {static} Image PROJECTILE_IMG
+- boolean isStunShot
++ void render(GraphicsContext)
++ void stunShot()
++ void doubleDamage()
++ void resetBuffs()
++ Image getProjectileImage()
++ double getLaunchX()
++ double getLaunchY()
++ double getLaunchAngle()
++ boolean isPoisonShot()
++ boolean isStunShot()
+}
+
+
+class entity.unit.Projectile {
+- {static} double GRAVITY
+- Image image
+- double vx
+- double vy
+- double initialVx
+- boolean isDestroyed
+- double angleRotation
+- double spinSpeed
+- {static} double DEFAULT_HITBOX
+- ProjectileStats stats
+- Wind wind
++ Rectangle2D getHitBox()
++ boolean isIntersects(GameObject)
++ void update(double)
++ void render(GraphicsContext)
++ double getDamage()
++ int getPoisonDuration()
++ boolean isStun()
++ boolean isPoisonous()
++ double getPoisonDamage()
++ boolean isDestroyed()
++ void setDestroyed(boolean)
+}
+
+
+class entity.status.ShieldStatus {
+- double damageReduction
++ void activate(Character)
++ double getDamageReduction()
+}
+
+
+interface entity.base.Damagedable {
+~ void takeDamage(double)
+}
+
+class entity.playerunit.Onion {
+- {static} Image NORMAL_IMG
+- {static} Image ATTACK_IMG
+- {static} Image DAMAGED_IMG
+- {static} Image PROJECTILE_IMG
+- boolean isPoisonShot
++ void render(GraphicsContext)
++ void takeDamage(double)
++ void toxic()
++ void growth()
++ void resetBuffs()
++ Image getProjectileImage()
++ double getLaunchX()
++ double getLaunchY()
++ double getLaunchAngle()
++ boolean isPoisonShot()
++ boolean isStunShot()
+}
+
+
+class entity.status.StunStatus {
++ void activate(Character)
++ boolean shouldSkipTurn()
+}
+
+class entity.unit.Wall {
++ Rectangle2D getHitBox()
++ void update(double)
++ void render(GraphicsContext)
+}
+
+
+
+entity.base.Damagedable <|.. entity.base.Character
+entity.base.GameObject <|-- entity.base.Character
+entity.base.StatusEffect <|-- entity.status.ToxicStatus
+entity.base.Character <|-- entity.playerunit.Carrot
+entity.base.GameObject <|-- entity.unit.Projectile
+entity.base.StatusEffect <|-- entity.status.ShieldStatus
+entity.base.Character <|-- entity.playerunit.Onion
+entity.base.StatusEffect <|-- entity.status.StunStatus
+entity.base.GameObject <|-- entity.unit.Wall
+@enduml

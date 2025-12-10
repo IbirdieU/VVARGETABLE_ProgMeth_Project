@@ -1,0 +1,117 @@
+@startuml
+class logic.managers.EntityManager {
+- Carrot carrot
+- Onion onion
+- Wall wall
+- ArrayList<GameObject> allObjects
++ void initializeGameWorld(boolean)
++ Carrot getCarrot()
++ Onion getOnion()
++ Wall getWall()
++ ArrayList<GameObject> getAllObjects()
++ void addProjectile(Projectile)
++ void cleanupDestroyed(Projectile)
+}
+
+
+class logic.handlers.InputHandler {
+- GameManager gameManager
++ void attachEventHandlers(Scene)
++ void handleMousePressed(MouseButton,double,double)
++ void handleMouseReleased(MouseButton)
+}
+
+
+class logic.managers.SoundManager {
+- {static} AudioClip throwingSound
+- {static} AudioClip strikeSound
+- {static} AudioClip skillUsedSound
+- {static} AudioClip tickingSound
+- {static} AudioClip clickSound
+- {static} AudioClip hoverSound
+- {static} MediaPlayer bgmPlayer
++ {static} void playThrowSound()
++ {static} void playStrikeSound()
++ {static} void playSkillSound()
++ {static} void playTickingSound()
++ {static} void playClickSound()
++ {static} void playHoverSound()
++ {static} void playBackgroundMusic()
+}
+
+
+class logic.managers.SceneManager {
+- StackPane root
+- GameManager gameManager
+- IntroMenu introMenu
+- MainMenu mainMenu
+- HowToMenu howToMenu
+- ModeSelectMenu modeSelectMenu
+- ImageCursor carrotCursor
+- ImageCursor onionCursor
+- void initializeMenus()
+- void initializeCursors()
++ void showIntroMenu()
+- void showMainMenu()
+- void showHowToMenu()
+- void showModeSelectMenu()
++ void showGameScene(GamePane,PlayerStatusPane,PowerBarPane,TurnInfoPane)
++ void showGameOverWindow(String)
++ void updateCursor(PlayerTurn)
+}
+
+
+class logic.managers.SkillManager {
+- GameManager gameManager
+- PlayerStatusPane playerStatusPane
+- SkillButton p1Skill1
+- SkillButton p2Skill1
++ void initializeSkills()
++ void updateSkillButtons(PlayerTurn,boolean)
++ void disableAllSkills()
++ void handleSkillUsage(PlayerTurn)
+}
+
+
+class util.UIButton {
++ {static} StackPane SignButton(String,String,Runnable)
+}
+
+enum logic.enums.PlayerTurn {
++  PLAYER_ONE
++  PLAYER_TWO
+}
+
+enum logic.enums.TurnState {
++  READY
++  CHARGING
++  PROJECTILE_IN_AIR
++  CHANGING_TURN
++  HIT
+}
+
+class logic.handlers.CollisionHandler {
+- TurnManager turnManager
++ long handleCollision(Projectile,Character,Wall)
+}
+
+
+class logic.managers.TurnManager {
+- PlayerTurn currentPlayerTurn
+- TurnState currentTurnState
+- TurnTimer turnTimer
+- Wind wind
+- int lastSecondPlayed
++ void update(double)
++ void switchTurn()
++ void reset()
++ void forceEndTurn()
++ PlayerTurn getCurrentPlayerTurn()
++ TurnState getCurrentTurnState()
++ void setCurrentTurnState(TurnState)
++ Wind getWind()
++ TurnTimer getTurnTimer()
+}
+
+
+@enduml

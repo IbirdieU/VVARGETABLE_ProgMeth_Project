@@ -1,0 +1,141 @@
+@startuml
+class logic.skills.Double {
++ void activate(GameManager)
+}
+
+class logic.skills.Heal {
++ void activate(GameManager)
+}
+
+abstract class logic.skills.Skill {
+# String name
+# Image icon
+# int maxCooldown
+# int currentCooldown
+# boolean isActive
++ {abstract}void activate(GameManager)
++ void reduceCooldown()
++ void use(GameManager)
++ boolean isReady()
++ Image getIcon()
++ int getCurrentCooldown()
++ String getName()
+}
+
+
+class logic.mechanics.Wind {
+- double strength
+- double MAX_STRENGTH
+- Random random
+- int duration
++ void onNewRound()
+- void randomize()
++ double getStrength()
++ int getDirection()
++ double getStrengthMagnitude()
++ int getRemainingDuration()
+}
+
+
+class logic.skills.Stun {
++ void activate(GameManager)
+}
+
+class logic.mechanics.TurnTimer {
+- double maxTime
+- double currentTime
+- boolean isTimeOut
++ void tick(double)
++ void reset()
++ int getCurrentTimeInt()
++ boolean isTimeOut()
+}
+
+
+class logic.mechanics.PowerMechanic {
+- double currentPower
+- double MAX_POWER
+- double MIN_POWER
+- double POWER_CHARGE_RATE
++ void reset()
++ void charge(double)
++ double getCurrentPower()
++ double getMaxPower()
++ double getMinPower()
+}
+
+
+class logic.skills.Toxic {
++ void activate(GameManager)
+}
+
+class logic.GameLoop {
+- GameManager gameManager
+- GamePane gamePane
+- PlayerStatusPane playerStatusPane
+- ArrayList<GameObject> allObjects
+- long lastNanoTime
++ void handle(long)
+}
+
+
+class logic.GameManager {
++ boolean isGameOver
+- StackPane root
+- SceneManager sceneManager
+- TurnManager turnManager
+- EntityManager entityManager
+- PowerMechanic powerMechanic
+- CollisionHandler collisionHandler
+- SkillManager skillManager
+- PlayerStatusPane playerStatusPane
+- PowerBarPane powerBarPane
+- Canvas gameCanvas
+- Projectile currentProjectile
+- long hitTimestamp
+- TurnInfoPane turnInfoPane
+- ImageCursor carrotCursor
+- ImageCursor onionCursor
+- InputHandler inputHandler
+- boolean isDoomedMode
++ void start()
++ void startGame()
+- void setupInputHandlers()
++ void launchProjectile()
++ void update(double)
+- void switchTurn()
++ void checkGameOver()
++ void showGameOverWindow()
+- void updateCursor()
++ void setDoomedMode(boolean)
++ Character getActivePlayer()
++ TurnState getCurrentTurnState()
++ double getCurrentPower()
++ double getMaxPower()
++ double getMinPower()
++ void setCurrentTurnState(TurnState)
++ TurnManager getTurnManager()
++ PowerMechanic getPowerMechanic()
++ boolean isDoomedMode()
++ void handleSkillUsage()
+}
+
+
+class logic.skills.Growth {
++ void activate(GameManager)
+}
+
+class logic.skills.Shield {
++ void activate(GameManager)
+}
+
+
+
+logic.skills.Skill <|-- logic.skills.Double
+logic.skills.Skill <|-- logic.skills.Heal
+logic.skills.Skill <|-- logic.skills.Stun
+logic.skills.Skill <|-- logic.skills.Toxic
+javafx.animation.AnimationTimer <|-- logic.GameLoop
+logic.skills.Skill <|-- logic.skills.Growth
+logic.skills.Skill <|-- logic.skills.Shield
+@enduml
