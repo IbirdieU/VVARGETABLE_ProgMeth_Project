@@ -78,7 +78,7 @@ public class GameManager {
             bgPath = "/background/doomedBackground.png";
 
         } else {
-            bgPath = "/background/inGameBackgroundWall.png";
+            bgPath = "/background/InGameBackgroundWall.png";
         }
 
         GamePane gamePane = new GamePane(gameCanvas, entityManager.getAllObjects(),bgPath);
