@@ -33,8 +33,8 @@ public abstract class Skill {
 
     public void use(GameManager gm) {
         if (isReady()) {
-            activate(gm);       // ทำงาน
-            currentCooldown = maxCooldown; // เริ่มนับถอยหลัง
+            activate(gm);
+            currentCooldown = maxCooldown;
             SoundManager.playSkillSound();
         }
     }
