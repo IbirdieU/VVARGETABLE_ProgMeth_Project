@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import logic.managers.SoundManager;
 
 public class UIButton {
 
@@ -40,6 +41,7 @@ public class UIButton {
 
         btn.setOnMouseEntered(e -> {
             textTitle.setStroke(Color.WHITE);
+            SoundManager.playHoverSound();
         });
 
         btn.setOnMouseExited(e -> {
@@ -47,6 +49,7 @@ public class UIButton {
         });
 
         btn.setOnAction(e -> {
+            SoundManager.playClickSound();
             if (action != null) action.run();
         });
 

@@ -4,11 +4,10 @@ import entity.base.Character;
 import entity.base.StatusEffect;
 
 public class ShieldStatus extends StatusEffect {
-    private double damageReduction;
+    private final double damageReduction = 0.6;
 
     public ShieldStatus(int duration) {
         super(duration, "/icon/statusIcon/shieldedStatus.png");
-        this.damageReduction = 0.5;
     }
 
     @Override

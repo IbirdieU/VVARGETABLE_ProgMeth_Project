@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import logic.GameManager;
+import logic.managers.SoundManager;
 
 public class Main extends Application {
     @Override
@@ -14,6 +15,8 @@ public class Main extends Application {
 
         GameManager gameManager = new GameManager(root);
         gameManager.start();
+
+        SoundManager.playBackgroundMusic();
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("vvargetable");

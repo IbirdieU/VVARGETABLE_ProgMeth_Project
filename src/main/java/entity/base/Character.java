@@ -1,8 +1,12 @@
 package entity.base;
 
-import entity.status.ShieldStatus;
 import entity.status.StunStatus;
+import entity.unit.Projectile;
+import entity.unit.ProjectileStats;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
+import logic.managers.SoundManager;
+import logic.mechanics.Wind;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,10 +23,8 @@ public abstract class Character extends GameObject implements Damagedable{
 
     protected double damageMultiplier = 1.0;
     protected double projectileScale = 1.0;
-    protected boolean isPoisonShot = false;
-    protected boolean isStunShot = false;
 
-    private ArrayList<StatusEffect> activeStatusEffects = new ArrayList<>();
+    private final ArrayList<StatusEffect> activeStatusEffects = new ArrayList<>();
 
     public Character(double x, double y, int health) {
         super(x, y);
@@ -32,18 +34,10 @@ public abstract class Character extends GameObject implements Damagedable{
     }
     @Override
     public void takeDamage(double amount) {
-        double reduction = 1.0;
-
-        for (StatusEffect effect : getActiveStatusEffects()) {
-            if (effect instanceof ShieldStatus) {
-                reduction *= ((ShieldStatus) effect).getDamageReduction();
-            }
-        }
-
-        double finalDamage = amount * reduction;
-        setHp(getHp() - finalDamage);
+        setHp(getHp()-amount);
         setDead(getHp());
         this.damagedStateTimer = DAMAGED_STATE_DURATION_S; // Set the timer when damage is taken
+        SoundManager.playStrikeSound();
     }
 
     @Override
@@ -62,26 +56,20 @@ public abstract class Character extends GameObject implements Damagedable{
     }
 
     public void toxic(){
-        this.isPoisonShot = true;
+
     }
 
     public void stunShot() {
-        this.isStunShot = true;
+
     }
 
-    public void doubleDamage(){
-        this.damageMultiplier = 2.0;
-    }
+    public void doubleDamage(){ }
 
-    public void growth(){
-        this.projectileScale = 2.0;
-    }
+    public void growth(){ }
 
     public void resetBuffs() {
         this.damageMultiplier = 1.0;
         this.projectileScale = 1.0;
-        this.isPoisonShot = false;
-        this.isStunShot = false;
     }
 
     public void addStatusEffect(StatusEffect effect) {
@@ -113,9 +101,27 @@ public abstract class Character extends GameObject implements Damagedable{
         return shouldSkipTurn;
     }
 
+    public Projectile shoot(double power, Wind wind,boolean isDoomedMode) {
+        double modeFactor = isDoomedMode ? 0.6 : 0.3;
+        double totalDamage = power * modeFactor * damageMultiplier;
+        ProjectileStats stats = new ProjectileStats(totalDamage, projectileScale, isPoisonShot(), isStunShot());
+
+        Image projectileImage = getProjectileImage();
+        double realWidth = projectileImage.getWidth() * 0.2 * stats.getScale();
+        double spawnCenterX = getX() + (getWidth() / 2);
+        double startX = spawnCenterX - (realWidth / 2);
+
+        Projectile projectile = new Projectile(startX, getLaunchY(), getProjectileImage(), getLaunchAngle(), power, wind, stats);
+        resetBuffs();
+        return projectile;
+    }
+
     public abstract double getLaunchX();
     public abstract double getLaunchY();
     public abstract double getLaunchAngle();
+    public abstract Image getProjectileImage();
+    public abstract boolean isPoisonShot();
+    public abstract boolean isStunShot();
 
 
     public double getHp() {
@@ -123,13 +129,7 @@ public abstract class Character extends GameObject implements Damagedable{
     }
 
     public void setHp(double hp) {
-        if (hp < 0) {
-            this.hp = 0;
-        } else if (hp > this.maxHp) {
-            this.hp = this.maxHp;
-        } else {
-            this.hp = hp;
-        }
+        this.hp = Math.max(0, Math.min(hp, this.maxHp));
     }
 
     public double getMaxHp() {
@@ -137,12 +137,7 @@ public abstract class Character extends GameObject implements Damagedable{
     }
 
     public void setDead(double hp) {
-        if (hp <= 0) {
-            isDead = true;
-        }
-        else {
-            isDead = false;
-        }
+        isDead = hp <= 0;
     }
     public boolean isDead() {
        return this.isDead;
@@ -155,15 +150,6 @@ public abstract class Character extends GameObject implements Damagedable{
     public double getProjectileScale() {
         return projectileScale;
     }
-
-    public boolean isPoisonShot() {
-        return isPoisonShot;
-    }
-
-    public boolean isStunShot() {
-        return isStunShot;
-    }
-
 
     public void setAttacking(boolean isAttacking) {
         this.isAttacking = isAttacking;

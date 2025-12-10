@@ -13,8 +13,10 @@ public class ToxicStatus extends StatusEffect {
         this.isFresh = true;
     }
 
+    /// first-turn damage blocking
     @Override
     public void activate(Character target) {
+        System.out.println(target.getClass().getSimpleName() + " is Poisoned!");
         if (isFresh) {
             isFresh = false;
             return;

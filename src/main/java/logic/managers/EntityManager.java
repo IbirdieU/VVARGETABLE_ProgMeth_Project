@@ -7,26 +7,28 @@ import entity.unit.Projectile;
 import entity.unit.Wall;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class EntityManager {
     private Carrot carrot;
     private Onion onion;
     private Wall wall;
-    private ArrayList<GameObject> allObjects;
+    private final ArrayList<GameObject> allObjects;
 
     public EntityManager() {
         this.allObjects = new ArrayList<>();
     }
 
-    public void initializeGameWorld() {
+    public void initializeGameWorld(boolean isDoomedMode) {
         allObjects.clear();
         final double GROUND_Y = 660;
 
         this.carrot = new Carrot(20, 0, 100);
         this.onion = new Onion(1050, 0, 100);
-        this.wall = new Wall(600, 327, 72, 393);
-
+        if (!isDoomedMode) {
+            this.wall = new Wall(600, 327, 76, 393);
+        } else {
+            this.wall = new Wall(1, 1, 1, 1);
+        }
         this.carrot.setY(GROUND_Y - this.carrot.getHeight());
         this.onion.setY(GROUND_Y - this.onion.getHeight());
 

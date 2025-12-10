@@ -1,15 +1,21 @@
 package logic.handlers;
 
+import javafx.scene.Scene;
 import javafx.scene.input.MouseButton;
 import logic.GameManager;
 import logic.enums.TurnState;
 
 public class InputHandler {
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
 
     public InputHandler(GameManager gameManager) {
         this.gameManager = gameManager;
+    }
+
+    public void attachEventHandlers(Scene scene) {
+        scene.setOnMousePressed(e -> handleMousePressed(e.getButton(), e.getX(), e.getY()));
+        scene.setOnMouseReleased(e -> handleMouseReleased(e.getButton()));
     }
 
     public void handleMousePressed(MouseButton button, double x, double y) {

@@ -12,6 +12,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import logic.managers.SoundManager;
 
 public class IntroMenu extends VBox {
     private Runnable onAction;
@@ -21,15 +22,8 @@ public class IntroMenu extends VBox {
         this.setSpacing(20);
         this.setAlignment(Pos.CENTER);
 
-        Image carrotImg = new Image("playerImage/carrot.png");
-        Image onionImg = new Image("playerImage/onion.png");
-
         BackgroundSize backgroundSize = new BackgroundSize(100,100 , true, true, false, true);
         BackgroundImage backgroundImage = new BackgroundImage(new Image("background/opening.png"),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT,backgroundSize);
-
-        HBox characterRow = new HBox(50);
-        characterRow.setAlignment(Pos.BASELINE_CENTER);
-        characterRow.getChildren().addAll(new ImageView(carrotImg), new ImageView(onionImg));
 
         Font myFont = Font.loadFont(getClass().getResourceAsStream("/font/bringa.ttf"),140);
         Text header = new Text("VVARGETABLE");
@@ -64,6 +58,7 @@ public class IntroMenu extends VBox {
 
         startBtn.setOnMouseEntered(e -> {
             textTitle.setStroke(Color.WHITE);
+            SoundManager.playHoverSound();
         });
 
         startBtn.setOnMouseExited(e -> {
@@ -72,6 +67,7 @@ public class IntroMenu extends VBox {
         });
 
         startBtn.setOnAction(actionEvent -> {
+            SoundManager.playClickSound();
             if (onAction != null) {
                 onAction.run();
             }

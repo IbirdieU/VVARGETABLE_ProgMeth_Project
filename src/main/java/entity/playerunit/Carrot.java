@@ -10,6 +10,8 @@ public class Carrot extends Character {
     private static final Image ATTACK_IMG = new Image("playerImage/attackCarrot.png");
     private static final Image DAMAGED_IMG = new Image("playerImage/damagedCarrot.png");
     private static final Image PROJECTILE_IMG = new Image("unitImage/throwingCarrot.png");
+    private boolean isStunShot = false;
+
     public Carrot(double x, double y, int health) {
         super(x, y, health);
         setWidth(NORMAL_IMG.getWidth()/5);
@@ -34,6 +36,22 @@ public class Carrot extends Character {
         }
     }
 
+    @Override
+    public void stunShot() {
+        this.isStunShot = true;
+    }
+
+    @Override
+    public void doubleDamage() {
+        this.damageMultiplier = 2.0;
+    }
+
+    @Override
+    public void resetBuffs() {
+        super.resetBuffs();
+        this.isStunShot = false;
+    }
+
     public Image getProjectileImage() {
         return PROJECTILE_IMG;
     }
@@ -52,5 +70,15 @@ public class Carrot extends Character {
     @Override
     public double getLaunchAngle() {
         return -60;
+    }
+
+    @Override
+    public boolean isPoisonShot() {
+        return false;
+    }
+
+    @Override
+    public boolean isStunShot() {
+        return isStunShot;
     }
 }

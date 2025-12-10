@@ -54,13 +54,11 @@ public class SkillManager {
                 p1Skill2.onTurnStart();
                 p1Skill3.onTurnStart();
             }
-
             if (isStun) {
                 p1Skill1.setTurnActive(false);
                 p1Skill2.setTurnActive(false);
                 p1Skill3.setTurnActive(false);
             }
-
             p2Skill1.setTurnActive(false);
             p2Skill2.setTurnActive(false);
             p2Skill3.setTurnActive(false);
@@ -70,13 +68,11 @@ public class SkillManager {
                 p2Skill2.onTurnStart();
                 p2Skill3.onTurnStart();
             }
-
             if (isStun) {
                 p2Skill1.setTurnActive(false);
                 p2Skill2.setTurnActive(false);
                 p2Skill3.setTurnActive(false);
             }
-
             p1Skill1.setTurnActive(false);
             p1Skill2.setTurnActive(false);
             p1Skill3.setTurnActive(false);

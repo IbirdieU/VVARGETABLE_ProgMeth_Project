@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import logic.managers.SoundManager;
 import util.UIButton;
 
 public class HowToMenu extends VBox {
@@ -55,12 +56,11 @@ public class HowToMenu extends VBox {
 
         VBox item1 = SkillDescription("/icon/skillIcon/healCarrot.png", "HEALING CARROT");
         VBox item2 = SkillDescription("/icon/skillIcon/doubleCarrot.png", "DOUBLE CARROT");
-        VBox item3 = SkillDescription("/icon/skillIcon/stunnedCarrot.png","STUNNED CARROT");
-        VBox item4 = SkillDescription("/icon/skillIcon/toxicOnion.png", "TOXIC ONION");
+        VBox item3 = SkillDescription("/icon/skillIcon/stunnedCarrot.png", "TOXIC ONION");
+        VBox item4 = SkillDescription("/icon/skillIcon/toxicOnion.png", "GROWTH ONION");
         VBox item5 = SkillDescription("/icon/skillIcon/growthOnion.png", "GROWTH ONION");
         VBox item6 = SkillDescription("/icon/skillIcon/shieldedOnion.png","SHIELDED ONION");
-
-        skillRow.getChildren().addAll(item1, item2, item3, item4,item5,item6);
+        skillRow.getChildren().addAll(item1, item2, item3, item4, item5, item6);
 
 
         /// Play button
@@ -71,7 +71,7 @@ public class HowToMenu extends VBox {
         });
 
         this.setBackground(new Background(backgroundImage));
-        this.getChildren().addAll(header,line1,line2,line3,line4,line5,skillRow,plyBtn);
+        this.getChildren().addAll(header,line1,line2,line3,line4,line5,line6,skillRow,plyBtn);
     }
 
     public void setOnStartAction(Runnable onStartAction) {
@@ -100,4 +100,5 @@ public class HowToMenu extends VBox {
 
         return itemBox;
     }
+
 }

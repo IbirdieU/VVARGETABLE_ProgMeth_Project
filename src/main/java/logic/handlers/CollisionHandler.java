@@ -37,7 +37,6 @@ public class CollisionHandler {
             turnManager.setCurrentTurnState(TurnState.CHANGING_TURN);
         }
 
-
         return 0;
     }
 

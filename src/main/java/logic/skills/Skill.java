@@ -2,6 +2,7 @@ package logic.skills;
 
 import logic.GameManager;
 import javafx.scene.image.Image;
+import logic.managers.SoundManager;
 
 public abstract class Skill {
     protected String name;
@@ -34,6 +35,7 @@ public abstract class Skill {
         if (isReady()) {
             activate(gm);       // ทำงาน
             currentCooldown = maxCooldown; // เริ่มนับถอยหลัง
+            SoundManager.playSkillSound();
         }
     }
 

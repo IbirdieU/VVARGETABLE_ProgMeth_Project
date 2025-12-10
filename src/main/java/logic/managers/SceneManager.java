@@ -37,7 +37,10 @@ public class SceneManager {
         mainMenu.setOnHowToAction(this::showHowToMenu);
         mainMenu.setOnStartAction(this::showModeSelectMenu);
         howToMenu.setOnStartAction(this::showModeSelectMenu);
-        modeSelectMenu.setOnClassicAction(gameManager::startGame);
+        modeSelectMenu.setOnClassicAction(() -> {
+            gameManager.setDoomedMode(false);
+            gameManager.startGame();
+        });
         modeSelectMenu.setOnDoomedAction(() -> {
             gameManager.setDoomedMode(true);
             gameManager.startGame();

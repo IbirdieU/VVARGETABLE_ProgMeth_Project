@@ -10,69 +10,47 @@ public class Projectile extends GameObject {
 
     private static final double GRAVITY = 1750; // pixels/second^2
 
-    private Image image;
+    private final Image image;
     private double vx;
     private double vy;
-    private double initialVx;
+    private final double initialVx;
     private boolean isDestroyed = false;
 
     private double angleRotation = 0;
-    private double spinSpeed = 360;
+    private final double spinSpeed = 360;
+    private static final double DEFAULT_HITBOX = 48.0;
+    private final ProjectileStats stats;
+    private final Wind wind;
 
-    private double damage;
-    private boolean isPoisonous;
-    private boolean isStun;
-    private int poisonDuration;
-    private double poisonDamage;
-    private Wind wind;
-    private double projectileScale;
-
-    public Projectile(double startX, double startY, Image image, double angle, double power, double damage,
-                       double scale, boolean isPoison, Wind wind,boolean isStun) {
-
+    public Projectile(double startX, double startY, Image image, double angle, double power, Wind wind, ProjectileStats stats) {
         super(startX, startY);
 
-
         this.image = image;
-        this.projectileScale = scale;
-        setWidth(image.getWidth()*0.15*scale);
-        setHeight(image.getHeight()*0.15*scale);
+        this.stats = stats;
+        this.wind = wind;
 
+        setWidth(image.getWidth() * 0.15 * stats.getScale());
+        setHeight(image.getHeight() * 0.15 * stats.getScale());
 
         setX(startX);
         setY(startY);
 
-
-        double velocityPower = power*18.0; // Scale down for velocity calculation
+        double velocityPower = power * 18.0; // Scale down for velocity calculation
         this.vx = velocityPower * Math.cos(Math.toRadians(angle));
         this.vy = velocityPower * Math.sin(Math.toRadians(angle));
         this.initialVx = this.vx;
-
-
-        this.damage = damage;
-        this.isPoisonous = isPoison;
-        this.isStun = isStun;
-        this.wind = wind;
-
-        if (isPoison) {
-            this.poisonDuration = 2;
-            this.poisonDamage = 10;
-        } else {
-            this.poisonDuration = 0;
-            this.poisonDamage = 0;
-        }
     }
 
     @Override
     public Rectangle2D getHitBox() {
-        if (image.getUrl().contains("onion") && projectileScale > 1) {
-            return new Rectangle2D(getX(),getY(),96,96);
+        if (image.getUrl().contains("onion") && stats.getScale() > 1) {
+            return new Rectangle2D(getX(), getY(), DEFAULT_HITBOX*2, DEFAULT_HITBOX*2);
         }
         if (image.getUrl().contains("carrot")) {
-            return new Rectangle2D(getX()+8,getY(),48,48);
+            return new Rectangle2D(getX() + 8, getY(), DEFAULT_HITBOX, DEFAULT_HITBOX);
         }
 
-        return new Rectangle2D(getX(),getY(),48,48);
+        return new Rectangle2D(getX(), getY(), DEFAULT_HITBOX, DEFAULT_HITBOX);
     }
 
     @Override
@@ -88,7 +66,6 @@ public class Projectile extends GameObject {
 
         // Apply wind
         vx += wind.getStrength() * deltaTime * 3.0;
-
 
         // Update position
         setX(x + vx * deltaTime);
@@ -111,28 +88,27 @@ public class Projectile extends GameObject {
         }
     }
 
-
     public double getDamage() {
         if (initialVx != 0) {
-            return damage * (Math.abs(vx) / Math.abs(initialVx));
+            return stats.getDamage() * (Math.abs(vx) / Math.abs(initialVx));
         }
-        return damage;
+        return stats.getDamage();
     }
 
     public int getPoisonDuration() {
-        return poisonDuration;
+        return stats.getPoisonDuration();
     }
 
     public boolean isStun() {
-        return isStun;
+        return stats.isStun();
     }
 
     public boolean isPoisonous() {
-        return isPoisonous;
+        return stats.isPoisonous();
     }
 
     public double getPoisonDamage() {
-        return poisonDamage;
+        return stats.getPoisonDamage();
     }
 
     public boolean isDestroyed() {
@@ -142,6 +118,4 @@ public class Projectile extends GameObject {
     public void setDestroyed(boolean destroyed) {
         isDestroyed = destroyed;
     }
-
-
 }

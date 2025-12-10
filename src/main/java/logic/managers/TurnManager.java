@@ -10,6 +10,7 @@ public class TurnManager {
     private TurnState currentTurnState;
     private TurnTimer turnTimer;
     private Wind wind;
+    private int lastSecondPlayed = -1;
 
     public TurnManager() {
         this.currentPlayerTurn = PlayerTurn.PLAYER_ONE;
@@ -24,16 +25,29 @@ public class TurnManager {
             if (turnTimer.isTimeOut()) {
                 currentTurnState = TurnState.CHANGING_TURN;
             }
+
+            int remainingSeconds = turnTimer.getCurrentTimeInt();
+            if (remainingSeconds <= 5 && remainingSeconds != lastSecondPlayed) {
+                SoundManager.playTickingSound();
+                lastSecondPlayed = remainingSeconds;
+            }
         }
     }
-
 
     public void switchTurn() {
         currentPlayerTurn = (currentPlayerTurn == PlayerTurn.PLAYER_ONE) ? PlayerTurn.PLAYER_TWO : PlayerTurn.PLAYER_ONE;
         wind.onNewRound();
         turnTimer.reset();
         currentTurnState = TurnState.READY;
+        lastSecondPlayed = -1;
+    }
 
+    public void reset() {
+        this.currentPlayerTurn = PlayerTurn.PLAYER_ONE; //force to start from Carrot
+        this.currentTurnState = TurnState.READY;
+        this.turnTimer.reset();
+        this.wind = new Wind();
+        lastSecondPlayed = -1;
     }
 
     public void forceEndTurn() {

@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import logic.managers.SoundManager;
 import util.UIButton;
 
 
@@ -22,8 +23,6 @@ public class MainMenu extends VBox {
 
         BackgroundSize backgroundSize = new BackgroundSize(100,100 , true, true, false, true);
         BackgroundImage backgroundImage = new BackgroundImage(new Image("background/howTo.png"),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT,backgroundSize);
-        this.setBackground(new Background(backgroundImage));
-
 
         Font myFont = Font.loadFont(getClass().getResourceAsStream("/font/comicy.ttf"),50);
 
@@ -44,6 +43,7 @@ public class MainMenu extends VBox {
             }
         });
 
+        this.setBackground(new Background(backgroundImage));
         this.getChildren().addAll(welcomeText,helpBtn,plyBtn);
     }
 

@@ -24,7 +24,7 @@ public class Wall extends GameObject {
 
     @Override
     public void render(GraphicsContext gc) {
-        gc.setFill(Color.rgb(255, 25, 0, 0.6)); //
+        gc.setFill(Color.rgb(255, 25, 0, 0)); //
         gc.fillRect(getX(), getY(), getWidth(), getHeight());
     }
 

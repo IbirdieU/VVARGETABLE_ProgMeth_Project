@@ -3,26 +3,21 @@ package gui;
 import entity.base.StatusEffect;
 import entity.playerunit.Carrot;
 import entity.playerunit.Onion;
+import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import logic.skills.Skill;
 
 public class PlayerStatusPane extends Pane {
-    private CustomHpBar onionHpBar;
-    private CustomHpBar carrotHpBar;
-    private Carrot carrot;
-    private Onion onion;
-    private HBox p1SkillBox;
-    private HBox p2SkillBox;
-    private VBox p1StatusBox;
-    private VBox p2StatusBox;
-
-    private final double BAR_WIDTH = 480;
-    private final double BAR_HEIGHT = 20;
+    private final CustomHpBar onionHpBar;
+    private final CustomHpBar carrotHpBar;
+    private final Carrot carrot;
+    private final Onion onion;
+    private final HBox p1SkillBox;
+    private final HBox p2SkillBox;
+    private final VBox p1StatusBox;
+    private final VBox p2StatusBox;
 
     public PlayerStatusPane(Carrot carrot, Onion onion) {
         super();
@@ -31,22 +26,24 @@ public class PlayerStatusPane extends Pane {
         p1SkillBox = new HBox(10);
         p2SkillBox = new HBox(10);
 
-        /// Skills
         p1SkillBox.setLayoutX(60);
         p1SkillBox.setLayoutY(90);
 
         p2SkillBox.setLayoutX(740);
         p2SkillBox.setLayoutY(90);
 
-        // Status
         p1StatusBox = new VBox(5);
-        p2StatusBox = new VBox(5);
-
-        p1StatusBox.setLayoutX(0);
+        p1StatusBox.setAlignment(Pos.TOP_CENTER);
+        p1StatusBox.setLayoutX(10);
         p1StatusBox.setLayoutY(300);
 
+        p2StatusBox = new VBox(5);
+        p2StatusBox.setAlignment(Pos.TOP_CENTER);
         p2StatusBox.setLayoutX(1210);
         p2StatusBox.setLayoutY(300);
+
+        final double BAR_WIDTH = 480;
+        final double BAR_HEIGHT = 20;
 
         onionHpBar = new CustomHpBar(BAR_WIDTH, BAR_HEIGHT);
         onionHpBar.setLayoutX(740);
@@ -68,8 +65,8 @@ public class PlayerStatusPane extends Pane {
     }
 
     public void update() {
-        double onionPercent = (double) onion.getHp() / onion.getMaxHp();
-        double carrotPercent = (double) carrot.getHp() / carrot.getMaxHp();
+        double onionPercent = onion.getHp() / onion.getMaxHp();
+        double carrotPercent = carrot.getHp() / carrot.getMaxHp();
 
         onionHpBar.setHp(onionPercent);
         carrotHpBar.setHp(carrotPercent);
@@ -78,23 +75,23 @@ public class PlayerStatusPane extends Pane {
         updateStatusIcons(p2StatusBox, onion);
     }
 
-    public void setSkills(SkillButton c1, SkillButton c2, SkillButton c3, SkillButton o1,SkillButton o2, SkillButton o3) {
+    public void setSkills(SkillButton s1, SkillButton s2, SkillButton s3, SkillButton s4 , SkillButton s5, SkillButton s6) {
         p1SkillBox.getChildren().clear();
         p2SkillBox.getChildren().clear();
 
-        p1SkillBox.getChildren().addAll(c1, c2,c3);
-        p2SkillBox.getChildren().addAll(o1, o2,o3);
+        p1SkillBox.getChildren().addAll(s1, s2, s3);
+        p2SkillBox.getChildren().addAll(s4, s5, s6);
     }
 
     private void updateStatusIcons(VBox statusBox, entity.base.Character character) {
         statusBox.getChildren().clear();
 
-        for (StatusEffect effect : character.getActiveStatusEffects()) {
+        for (int i = character.getActiveStatusEffects().size() - 1; i >= 0; i--) {
+            StatusEffect effect = character.getActiveStatusEffects().get(i);
             if (effect.getIcon() != null) {
                 ImageView iconView = new ImageView(effect.getIcon());
-                iconView.setFitWidth(70);
-                iconView.setFitHeight(70);
-
+                iconView.setFitWidth(50);
+                iconView.setFitHeight(50);
                 statusBox.getChildren().add(iconView);
             }
         }

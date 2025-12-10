@@ -10,6 +10,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
+import logic.managers.SoundManager;
 import util.UIButton;
 
 public class GameOverPane extends StackPane {
@@ -27,7 +28,7 @@ public class GameOverPane extends StackPane {
         window.setMaxSize(400, 300);
 
 
-        Image bgImg = new Image(ClassLoader.getSystemResourceAsStream("background/howTo.png"));
+        Image bgImg = new Image("background/howTo.png");
         ImageView bgView = new ImageView(bgImg);
         bgView.setFitWidth(860);
         bgView.setFitHeight(480);

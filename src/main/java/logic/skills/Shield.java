@@ -12,7 +12,5 @@ public class Shield extends Skill {
     public void activate(GameManager gameManager) {
         gameManager.getActivePlayer().addStatusEffect(new ShieldStatus(2));
         System.out.println("Shield Activated!");
-
-        gameManager.getTurnManager().forceEndTurn();
     }
 }
