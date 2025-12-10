@@ -116,7 +116,7 @@ public abstract class Character extends GameObject implements Damagedable{
         return projectile;
     }
 
-    public abstract double getLaunchX();
+
     public abstract double getLaunchY();
     public abstract double getLaunchAngle();
     public abstract Image getProjectileImage();

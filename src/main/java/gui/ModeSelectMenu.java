@@ -17,7 +17,7 @@ public class ModeSelectMenu extends VBox {
         this.setSpacing(30);
 
         BackgroundSize backgroundSize = new BackgroundSize(100,100 , true, true, false, true);
-        BackgroundImage backgroundImage = new BackgroundImage(new Image("background/howTo.png"), BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT,backgroundSize);
+        BackgroundImage backgroundImage = new BackgroundImage(new Image(getClass().getResourceAsStream("/background/howTo.png")), BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT,backgroundSize);
         this.setBackground(new Background(backgroundImage));
 
         Font myFont = Font.loadFont(getClass().getResourceAsStream("/font/comicy.ttf"),50);

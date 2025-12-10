@@ -43,13 +43,9 @@ public class Projectile extends GameObject {
 
     @Override
     public Rectangle2D getHitBox() {
-        if (image.getUrl().contains("onion") && stats.getScale() > 1) {
+        if (stats.getScale() > 1) {
             return new Rectangle2D(getX(), getY(), DEFAULT_HITBOX*2, DEFAULT_HITBOX*2);
         }
-        if (image.getUrl().contains("carrot")) {
-            return new Rectangle2D(getX() + 8, getY(), DEFAULT_HITBOX, DEFAULT_HITBOX);
-        }
-
         return new Rectangle2D(getX(), getY(), DEFAULT_HITBOX, DEFAULT_HITBOX);
     }
 

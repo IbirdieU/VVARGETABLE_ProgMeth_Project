@@ -4,7 +4,7 @@ import logic.GameManager;
 
 public class Double extends Skill {
     public Double() {
-        super("DOUBLE", "icon/skillIcon/doubleCarrot.png", 4);
+        super("DOUBLE", "/icon/skillIcon/doubleCarrot.png", 5);
     }
 
     @Override

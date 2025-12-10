@@ -1,8 +1,8 @@
 package logic.managers;
 
 import entity.base.GameObject;
-import entity.playerunit.Carrot;
-import entity.playerunit.Onion;
+import entity.playerUnit.Carrot;
+import entity.playerUnit.Onion;
 import entity.unit.Projectile;
 import entity.unit.Wall;
 

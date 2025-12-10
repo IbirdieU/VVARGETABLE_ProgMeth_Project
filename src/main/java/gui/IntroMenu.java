@@ -23,7 +23,7 @@ public class IntroMenu extends VBox {
         this.setAlignment(Pos.CENTER);
 
         BackgroundSize backgroundSize = new BackgroundSize(100,100 , true, true, false, true);
-        BackgroundImage backgroundImage = new BackgroundImage(new Image("background/opening.png"),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT,backgroundSize);
+        BackgroundImage backgroundImage = new BackgroundImage(new Image(getClass().getResourceAsStream("/background/opening.png")),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT,backgroundSize);
 
         Font myFont = Font.loadFont(getClass().getResourceAsStream("/font/bringa.ttf"),140);
         Text header = new Text("VVARGETABLE");

@@ -16,7 +16,7 @@ public class UIButton {
     public static StackPane SignButton(String content, String imagePath, Runnable action){
         Image img = null;
         try {
-            img = new Image(imagePath);
+            img = new Image(UIButton.class.getResourceAsStream(imagePath));
         } catch (NullPointerException e) {
             System.out.println("Not Found: " + imagePath);
         }

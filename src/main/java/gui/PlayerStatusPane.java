@@ -1,8 +1,8 @@
 package gui;
 
 import entity.base.StatusEffect;
-import entity.playerunit.Carrot;
-import entity.playerunit.Onion;
+import entity.playerUnit.Carrot;
+import entity.playerUnit.Onion;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;

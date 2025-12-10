@@ -29,21 +29,6 @@ public class SkillButton extends StackPane {
         iconView.setFitWidth(50);
         iconView.setFitHeight(50);
         btn.setGraphic(iconView);
-/*
-        if (skill.getIcon() != null) {
-            iconView = new ImageView(skill.getIcon());
-            iconView.setFitWidth(50);
-            iconView.setFitHeight(50);
-            btn.setGraphic(iconView);
-        } else {
-            // ถ้าไม่มีรูป ให้ใส่ชื่อสกิลลงไปแทน
-            btn.setText(skill.getName());
-            btn.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-            btn.setPrefSize(60, 60); // กำหนดขนาดปุ่มให้เท่าๆ กัน
-        }
-
- */
-
 
 
         btn.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");

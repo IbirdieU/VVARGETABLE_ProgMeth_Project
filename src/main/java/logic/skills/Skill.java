@@ -17,7 +17,7 @@ public abstract class Skill {
         this.currentCooldown = 0;
 
         try {
-            this.icon = new Image(iconPath);
+            this.icon = new Image(getClass().getResourceAsStream(iconPath));
         } catch (Exception e) {
             System.out.println("Error loading skill icon: " + iconPath);
         }

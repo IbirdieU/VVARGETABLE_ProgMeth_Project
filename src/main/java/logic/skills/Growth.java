@@ -4,7 +4,7 @@ import logic.GameManager;
 
 public class Growth extends Skill {
     public Growth() {
-        super("GROWTH", "icon/skillIcon/growthOnion.png", 4);
+        super("GROWTH", "/icon/skillIcon/growthOnion.png", 5);
     }
 
     @Override

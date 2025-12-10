@@ -20,19 +20,19 @@ public class CustomHpBar extends StackPane {
     public CustomHpBar(double width, double height) {
         this.maxWidth = width;
 
-        // === Background (เหมือนของเดิม) ===
+
         bg = new Rectangle(width, height);
         bg.setFill(Color.DARKGRAY);
         bg.setArcWidth(height);
         bg.setArcHeight(height);
 
-        // === HP bar (แบบเดิม) ===
+
         bar = new Rectangle(width, height);
         bar.setFill(Color.LIMEGREEN);
         bar.setArcWidth(height);
         bar.setArcHeight(height);
 
-        // Default: หดจากซ้ายเข้ากลาง
+
         StackPane.setAlignment(bar, Pos.CENTER_RIGHT);
 
         getChildren().addAll(bg, bar);
@@ -44,7 +44,7 @@ public class CustomHpBar extends StackPane {
 
         double targetWidth = maxWidth * percent;
 
-        // ป้องกันอาการ animation ซ้อนกัน
+
         if (smoothAnim != null) smoothAnim.stop();
 
         // Smooth animation
@@ -60,7 +60,7 @@ public class CustomHpBar extends StackPane {
         smoothAnim.play();
     }
 
-    /** ใช้เมื่อเป็นฝั่งขวา (Onion) ให้ HP หดจากขวาเข้ากลาง */
+
     public void setRightSide() {
         StackPane.setAlignment(bar, Pos.CENTER_LEFT);
     }

@@ -4,7 +4,7 @@ import logic.GameManager;
 
 public class Toxic extends Skill {
     public Toxic() {
-        super("TOXIC", "icon/skillIcon/toxicOnion.png", 4);
+        super("TOXIC", "/icon/skillIcon/toxicOnion.png", 5);
     }
 
     @Override

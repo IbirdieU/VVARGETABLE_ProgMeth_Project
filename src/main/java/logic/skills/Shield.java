@@ -5,7 +5,7 @@ import entity.status.ShieldStatus;
 
 public class Shield extends Skill {
     public Shield() {
-        super("SHIELD", "icon/skillIcon/shieldedOnion.png", 4);
+        super("SHIELD", "/icon/skillIcon/shieldedOnion.png", 5);
     }
 
     @Override

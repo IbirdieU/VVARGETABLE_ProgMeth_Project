@@ -11,7 +11,7 @@ public abstract class StatusEffect {
         this.duration = duration;
 
         try {
-            this.icon = new Image(iconPath);
+            this.icon = new Image(getClass().getResourceAsStream(iconPath));
         } catch (Exception e) {
             System.out.println("Could not load status icon: " + iconPath);
             this.icon = null;

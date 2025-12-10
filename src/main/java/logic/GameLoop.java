@@ -34,7 +34,7 @@ public class GameLoop extends AnimationTimer {
         double deltaTime = (currentNanoTime - lastNanoTime) / 1000000000.0;
         lastNanoTime = currentNanoTime;
 
-        // GameManager now handles updating the power bar
+        //Handles updating the power bar
 
         for (GameObject gameObject : allObjects) {
             gameObject.update(deltaTime);

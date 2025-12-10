@@ -57,8 +57,8 @@ public class GameManager {
         this.gameCanvas = new Canvas(1280, 720);
         this.inputHandler = new InputHandler(this);
         double cursorSize = 64;
-        Image carrotImg = new Image("/unitImage/throwingCarrot.png");
-        Image onionImg = new Image("/unitImage/throwingOnion.png");
+        Image carrotImg = new Image(getClass().getResourceAsStream("/unitImage/throwingCarrot.png"));
+        Image onionImg = new Image(getClass().getResourceAsStream("/unitImage/throwingOnion.png"));
         double hotSpotX = cursorSize / 2;
         double hotSpotY = cursorSize / 2;
         this.carrotCursor = new ImageCursor(carrotImg, hotSpotX, hotSpotY);
@@ -78,7 +78,7 @@ public class GameManager {
             bgPath = "/background/doomedBackground.png";
 
         } else {
-            bgPath = "background/inGameBackgroundWall.png";
+            bgPath = "/background/inGameBackgroundWall.png";
         }
 
         GamePane gamePane = new GamePane(gameCanvas, entityManager.getAllObjects(),bgPath);

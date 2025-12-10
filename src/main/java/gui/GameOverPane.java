@@ -28,7 +28,7 @@ public class GameOverPane extends StackPane {
         window.setMaxSize(400, 300);
 
 
-        Image bgImg = new Image("background/howTo.png");
+        Image bgImg = new Image(getClass().getResourceAsStream("/background/howTo.png"));
         ImageView bgView = new ImageView(bgImg);
         bgView.setFitWidth(860);
         bgView.setFitHeight(480);

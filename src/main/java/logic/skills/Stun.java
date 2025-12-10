@@ -5,7 +5,7 @@ import logic.GameManager;
 
 public class Stun extends Skill {
     public Stun() {
-        super("STUN", "icon/skillIcon/stunnedCarrot.png", 4);
+        super("STUN", "/icon/skillIcon/stunnedCarrot.png", 5);
     }
 
     @Override

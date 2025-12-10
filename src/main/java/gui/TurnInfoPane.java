@@ -54,7 +54,7 @@ public class TurnInfoPane extends VBox {
 
 
         // Wind arrow
-        Image arrowImage = new Image("/icon/otherIcon/arrow.png");
+        Image arrowImage = new Image(getClass().getResourceAsStream("/icon/otherIcon/arrow.png"));
         windArrow = new ImageView(arrowImage);
         windArrow.setFitWidth(100);
         windArrow.setFitHeight(80);

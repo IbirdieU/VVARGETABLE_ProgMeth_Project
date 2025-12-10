@@ -4,7 +4,7 @@ import logic.GameManager;
 
 public class Heal extends Skill {
     public Heal() {
-        super("HEAL", "icon/skillIcon/healCarrot.png", 4);
+        super("HEAL", "/icon/skillIcon/healCarrot.png", 5);
     }
 
     @Override

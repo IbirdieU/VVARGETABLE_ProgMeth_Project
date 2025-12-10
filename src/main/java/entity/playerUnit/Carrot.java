@@ -1,0 +1,79 @@
+package entity.playerUnit;
+
+import entity.base.Character;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+
+public class Carrot extends Character {
+
+    private static final Image NORMAL_IMG = new Image(Carrot.class.getResourceAsStream("/playerImage/carrot.png"));
+    private static final Image ATTACK_IMG = new Image(Carrot.class.getResourceAsStream("/playerImage/attackCarrot.png"));
+    private static final Image DAMAGED_IMG = new Image(Carrot.class.getResourceAsStream("/playerImage/damagedCarrot.png"));
+    private static final Image PROJECTILE_IMG = new Image(Carrot.class.getResourceAsStream("/unitImage/throwingCarrot.png"));
+    private boolean isStunShot = false;
+
+    public Carrot(double x, double y, int health) {
+        super(x, y, health);
+        setWidth(NORMAL_IMG.getWidth()/5);
+        setHeight(NORMAL_IMG.getHeight()/5);
+    }
+
+    @Override
+    public void render(GraphicsContext gc) {
+        Image imageToRender;
+        if (isShowingDamaged()) {
+            imageToRender = DAMAGED_IMG;
+        } else if (isAttacking) {
+            imageToRender = ATTACK_IMG;
+        } else {
+            imageToRender = NORMAL_IMG;
+        }
+
+        if (isAttacking) {
+            gc.drawImage(imageToRender, getX()-20, getY(), getWidth(), getHeight());
+        } else {
+            gc.drawImage(imageToRender, getX(), getY(), getWidth(), getHeight());
+        }
+    }
+
+    @Override
+    public void stunShot() {
+        this.isStunShot = true;
+    }
+
+    @Override
+    public void doubleDamage() {
+        this.damageMultiplier = 2.0;
+    }
+
+    @Override
+    public void resetBuffs() {
+        super.resetBuffs();
+        this.isStunShot = false;
+    }
+
+    public Image getProjectileImage() {
+        return PROJECTILE_IMG;
+    }
+
+    @Override
+    public double getLaunchY() {
+        double realHeight = getProjectileImage().getHeight() * 0.2 * getProjectileScale();
+        return getY() + (getHeight() / 2) - (realHeight / 2);
+    }
+
+    @Override
+    public double getLaunchAngle() {
+        return -60;
+    }
+
+    @Override
+    public boolean isPoisonShot() {
+        return false;
+    }
+
+    @Override
+    public boolean isStunShot() {
+        return isStunShot;
+    }
+}
